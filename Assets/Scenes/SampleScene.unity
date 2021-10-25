@@ -367,7 +367,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 172290706}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -22.512798, y: 8.684946, z: 0.33408517}
+  m_LocalPosition: {x: -21.57, y: 8.57, z: 0.33408517}
   m_LocalScale: {x: 6.661248, y: 38.5929, z: 1}
   m_Children: []
   m_Father: {fileID: 902122240}
@@ -1217,21 +1217,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337ffd490afc54545b91e19c1475876e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForceUp: 1433.32
-  jumpForceSideways: 495
+  jumpForceUp: 2233
+  jumpForceSideways: 763
   jumpChargeTime: 1
-  springCount: 4
-  jointScale: 0.14
+  springCount: 9
+  jointScale: 0.56
   linearDrag: 0.42
   linearDragWhileCharging: 10
-  dampening: 0
+  dampening: 0.33
   dampeningWhileCharging: 4528
-  bottomJointMass: 1
+  bottomJointMass: 1.5
   bottomJointGravityScale: 1
-  balancingJointMass: 0.05
+  balancingJointMass: 0.5
   balancingJointGravityScale: -1
-  relaxedDistance: 0.71
-  chargedDistance: 0.27
+  relaxedDistance: 1.06
+  chargedDistance: 0.5
   oscillatingFrequency: 12.3
   tiltStrength: 0.2
   debugMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}

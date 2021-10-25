@@ -51,7 +51,7 @@ public class SpringController : MonoBehaviour
             GameObject = new GameObject("SpringJoint " + index, typeof(MeshFilter), typeof(MeshRenderer),
                 typeof(Rigidbody2D), typeof(CircleCollider2D))
         };
-        _joints[index].GameObject.transform.localScale = Vector3.one*jointScale;
+        _joints[index].GameObject.transform.localScale = Vector3.one*jointScale/springCount;
         _joints[index].Rigidbody2D = _joints[index].GameObject.GetComponent<Rigidbody2D>();
         _joints[index].Rigidbody2D.drag = linearDrag;
         _joints[index].Rigidbody2D.angularDrag = 1000000f;
@@ -66,7 +66,7 @@ public class SpringController : MonoBehaviour
             _joints[index].SpringJoint2D.connectedBody = _joints[index - 1].GameObject.GetComponent<Rigidbody2D>(); // attach this SpringJoint to the joint before it
             _joints[index].SpringJoint2D.dampingRatio = dampening;
             _joints[index].SpringJoint2D.autoConfigureDistance = false;
-            _joints[index].SpringJoint2D.distance = relaxedDistance;
+            _joints[index].SpringJoint2D.distance = relaxedDistance/springCount;
             _joints[index].SpringJoint2D.frequency = oscillatingFrequency;
             SetBalancingJoint(index);
         }
@@ -81,7 +81,7 @@ public class SpringController : MonoBehaviour
 
     private void SetBalancingJoint(int index)
     {
-        _joints[index].Rigidbody2D.mass = balancingJointMass;
+        _joints[index].Rigidbody2D.mass = balancingJointMass/springCount;
         _joints[index].Rigidbody2D.gravityScale = balancingJointGravityScale;
     }
     
@@ -92,12 +92,12 @@ public class SpringController : MonoBehaviour
         _joints[_topJointIndex].Rigidbody2D.AddForce(Vector2.right * (Input.GetAxis("Horizontal") * tiltStrength));
         if (Input.GetKey(KeyCode.Space))
         {
-            _jumpCharge = Mathf.Min(_jumpCharge + Time.deltaTime*jumpChargeTime, 1);
+            _jumpCharge = Mathf.Min(_jumpCharge + Time.deltaTime*jumpChargeTime, 1);    // gradually charge a jump while the jump button is held down
             _joints[0].Rigidbody2D.drag = linearDragWhileCharging;
             // makes the spring visibly charge by contracting its joints
             for (int index = 1; index < springCount; index++)
             {
-                _joints[index].SpringJoint2D.distance = Mathf.Lerp(relaxedDistance, chargedDistance, _jumpCharge);
+                _joints[index].SpringJoint2D.distance = Mathf.Lerp(relaxedDistance/springCount, chargedDistance/springCount, _jumpCharge);
                 _joints[index].SpringJoint2D.dampingRatio = dampeningWhileCharging;
                 _joints[index].Rigidbody2D.drag = linearDragWhileCharging;
             }
@@ -108,10 +108,11 @@ public class SpringController : MonoBehaviour
             {
                 Jump();
                 _jumpCharge = 0;
+                // instantly discharge the character's spring joints and reset their physics properties back to notmal
                 _joints[0].Rigidbody2D.drag = linearDrag;
                 for (int index = 1; index < springCount; index++)
                 {
-                    _joints[index].SpringJoint2D.distance = relaxedDistance;
+                    _joints[index].SpringJoint2D.distance = relaxedDistance/springCount;
                     _joints[index].SpringJoint2D.dampingRatio = dampening;
                     _joints[index].Rigidbody2D.drag = linearDrag;
                 }
@@ -124,9 +125,7 @@ public class SpringController : MonoBehaviour
         var upForce = jumpForceUp * _jumpCharge;
         _joints[_topJointIndex].Rigidbody2D.mass = bottomJointMass; // quick fix for making the character actually jump instead of spiralling out of control
         _joints[_topJointIndex].Rigidbody2D.AddForce(new Vector2(Random.value*0.01f + jumpForceSideways*Input.GetAxis("Horizontal"), upForce));
-        Debug.Log("Applied jumping force to the "+_topJointIndex+". joint");
         TurnUpsideDown();
-
     }
 
     private void TurnUpsideDown()
