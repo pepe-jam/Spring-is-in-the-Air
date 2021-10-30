@@ -1,12 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SpringController : MonoBehaviour
 {
     [SerializeField] private float jumpForceUp;
     [SerializeField] private float jumpForceSideways;
     [SerializeField] private float jumpChargeTime;
+    [SerializeField] private float moveHopDelay;
+    [SerializeField] private float moveForceSideways;
     [SerializeField] private int springCount;
     [SerializeField] private float jointScale;
     public float linearDrag;
@@ -25,11 +28,18 @@ public class SpringController : MonoBehaviour
 
     public float tiltStrength;
 
+    [SerializeField] private LayerMask groundLayers;
+    [Tooltip("How long the player has to 'lay' on the ground before they are considered grounded and able to jump (in seconds)")]
+    public float groundCheckDuration;
+
     public Mesh debugMesh;
 
     private Joint[] _joints;
     private float _jumpCharge = 0;
+    private float _moveHopDelay = 0;
+    private float _secondsGrounded = 0;
     private int _topJointIndex;
+    private int _bottomJointIndex;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +52,7 @@ public class SpringController : MonoBehaviour
         }
 
         _topJointIndex = springCount - 1;
+        _bottomJointIndex = 0;
     }
 
     private void CreateSpringJointObject(int index)
@@ -51,7 +62,8 @@ public class SpringController : MonoBehaviour
             GameObject = new GameObject("SpringJoint " + index, typeof(MeshFilter), typeof(MeshRenderer),
                 typeof(Rigidbody2D), typeof(CircleCollider2D))
         };
-        _joints[index].GameObject.transform.localScale = Vector3.one*jointScale;
+        _joints[index].GameObject.layer = LayerMask.NameToLayer("Player");  // Add all joints to a separate layer to make ground collision checks possible
+        _joints[index].GameObject.transform.localScale = Vector3.one*jointScale/springCount;
         _joints[index].Rigidbody2D = _joints[index].GameObject.GetComponent<Rigidbody2D>();
         _joints[index].Rigidbody2D.drag = linearDrag;
         _joints[index].Rigidbody2D.angularDrag = 1000000f;
@@ -66,7 +78,7 @@ public class SpringController : MonoBehaviour
             _joints[index].SpringJoint2D.connectedBody = _joints[index - 1].GameObject.GetComponent<Rigidbody2D>(); // attach this SpringJoint to the joint before it
             _joints[index].SpringJoint2D.dampingRatio = dampening;
             _joints[index].SpringJoint2D.autoConfigureDistance = false;
-            _joints[index].SpringJoint2D.distance = relaxedDistance;
+            _joints[index].SpringJoint2D.distance = relaxedDistance/springCount;
             _joints[index].SpringJoint2D.frequency = oscillatingFrequency;
             SetBalancingJoint(index);
         }
@@ -77,56 +89,94 @@ public class SpringController : MonoBehaviour
     {
         _joints[index].Rigidbody2D.mass = bottomJointMass;
         _joints[index].Rigidbody2D.gravityScale = bottomJointGravityScale;
+        _bottomJointIndex = index;
     }
 
     private void SetBalancingJoint(int index)
     {
-        _joints[index].Rigidbody2D.mass = balancingJointMass;
+        _joints[index].Rigidbody2D.mass = balancingJointMass/springCount;
         _joints[index].Rigidbody2D.gravityScale = balancingJointGravityScale;
     }
+    
+    private class Joint
+    {
+        public GameObject GameObject { get; set; }
+        // So we don't have to call GetComponent() every time the spring turns around, we can save a reference to important components it as a property
+        public SpringJoint2D SpringJoint2D { get; set; }    
+        public Rigidbody2D Rigidbody2D;
+    }
+
+    
+    # region Controls
+
+  
+
     
     // Update is called once per frame
     void Update()
     {
-        // makes the spring tilt depending on the direction pressed
-        _joints[_topJointIndex].Rigidbody2D.AddForce(Vector2.right * (Input.GetAxis("Horizontal") * tiltStrength));
-        if (Input.GetKey(KeyCode.Space))
+        _moveHopDelay -= Time.deltaTime;
+        if (GroundCheck())
         {
-            _jumpCharge = Mathf.Min(_jumpCharge + Time.deltaTime*jumpChargeTime, 1);
-            _joints[0].Rigidbody2D.drag = linearDragWhileCharging;
-            // makes the spring visibly charge by contracting its joints
-            for (int index = 1; index < springCount; index++)
+            BalancingJointGravity();
+            
+            if (Input.GetKey(KeyCode.Space))
             {
-                _joints[index].SpringJoint2D.distance = Mathf.Lerp(relaxedDistance, chargedDistance, _jumpCharge);
-                _joints[index].SpringJoint2D.dampingRatio = dampeningWhileCharging;
-                _joints[index].Rigidbody2D.drag = linearDragWhileCharging;
+                // makes the spring tilt into the direction of the jump
+                _joints[_topJointIndex].Rigidbody2D.AddForce(Vector2.right * (Input.GetAxis("Horizontal") * tiltStrength));
+                _jumpCharge = Mathf.Min(_jumpCharge + Time.deltaTime*jumpChargeTime, 1);    // gradually charge a jump while the jump button is held down
+                _joints[0].Rigidbody2D.drag = linearDragWhileCharging;
+                // makes the spring visibly charge by contracting its joints
+                for (int index = 1; index < springCount; index++)
+                {
+                    _joints[index].SpringJoint2D.distance = Mathf.Lerp(relaxedDistance/springCount, chargedDistance/springCount, _jumpCharge);
+                    _joints[index].SpringJoint2D.dampingRatio = dampeningWhileCharging;
+                    _joints[index].Rigidbody2D.drag = linearDragWhileCharging;
+                }
+            }
+            else
+            {
+                if (_jumpCharge > 0)
+                {
+                    // Jump high into the air (or not, depending on the value of _jumpCharge)
+                    Jump(_jumpCharge, jumpForceSideways);
+                    _jumpCharge = 0;
+                    ResetPhysicalProperties();
+                }
+                else if (Input.GetAxis("Horizontal") != 0 && _moveHopDelay <= 0)
+                {
+                    // Bewegung nach links und rechts
+                    Jump(0, moveForceSideways, ForceMode2D.Impulse);
+                    _moveHopDelay = moveHopDelay;
+                }
             }
         }
         else
         {
-            if (_jumpCharge > 0)
-            {
-                Jump();
-                _jumpCharge = 0;
-                _joints[0].Rigidbody2D.drag = linearDrag;
-                for (int index = 1; index < springCount; index++)
-                {
-                    _joints[index].SpringJoint2D.distance = relaxedDistance;
-                    _joints[index].SpringJoint2D.dampingRatio = dampening;
-                    _joints[index].Rigidbody2D.drag = linearDrag;
-                }
-            }
+            // If the player leaves the ground while charging for a jump, that charging state must be reversed 
+            ResetPhysicalProperties();
         }
     }
 
-    private void Jump()
+    private void ResetPhysicalProperties()
     {
-        var upForce = jumpForceUp * _jumpCharge;
-        _joints[_topJointIndex].Rigidbody2D.mass = bottomJointMass; // quick fix for making the character actually jump instead of spiralling out of control
-        _joints[_topJointIndex].Rigidbody2D.AddForce(new Vector2(Random.value*0.01f + jumpForceSideways*Input.GetAxis("Horizontal"), upForce));
-        Debug.Log("Applied jumping force to the "+_topJointIndex+". joint");
-        TurnUpsideDown();
+        // instantly discharge the character's spring joints and reset their physics properties back to normal
+        _joints[0].Rigidbody2D.drag = linearDrag;
+        for (int index = 1; index < springCount; index++)
+        {
+            _joints[index].SpringJoint2D.distance = relaxedDistance / springCount;
+            _joints[index].SpringJoint2D.dampingRatio = dampening;
+            _joints[index].Rigidbody2D.drag = linearDrag;
+        }
+    }
 
+    private void Jump(float jumpCharge, float jumpForceSideways, ForceMode2D forceMode = ForceMode2D.Force)
+    {
+        var upForce = jumpForceUp * jumpCharge;
+        _joints[_topJointIndex].Rigidbody2D.mass = bottomJointMass; // quick fix for making the character actually jump instead of spiralling out of control
+        _joints[_topJointIndex].Rigidbody2D.AddForce(new Vector2(Random.value*0.01f + jumpForceSideways*Input.GetAxis("Horizontal"), upForce), forceMode);
+        TurnUpsideDown();
+        BalancingJointGravity(true);
     }
 
     private void TurnUpsideDown()
@@ -145,11 +195,50 @@ public class SpringController : MonoBehaviour
         }
     }
 
-    private class Joint
+    private void BalancingJointGravity(bool weightless = false)
     {
-        public GameObject GameObject { get; set; }
-        // So we don't have to call GetComponent() every time the spring turns around, we can save a reference to important components it as a property
-        public SpringJoint2D SpringJoint2D { get; set; }    
-        public Rigidbody2D Rigidbody2D;
+        for (int index = 0; index < springCount; index++)
+        {
+            if (index != _bottomJointIndex)
+            {
+                _joints[index].Rigidbody2D.gravityScale = weightless ? 0 : balancingJointGravityScale;
+            }
+        }
     }
+
+    /**
+     * Checks if the player (therefore the bottom joint of the player) is on the ground and ready to jump.
+     * In order to avoid the player controller thinking it is on the ground whilst colliding with a wall, for instance,
+     * the GroundCheck() only returns true after several consecutive frames of the bottom joint being in contact with "ground".
+     * How long exactly is determined by the groundCheckDuration parameter. 
+     */
+    private bool GroundCheck()
+    {
+        if (Physics2D.OverlapCircle(_joints[_bottomJointIndex].Rigidbody2D.position, _joints[_bottomJointIndex].GameObject.transform.lossyScale.y + 0.0001f, groundLayers))
+        {
+            _secondsGrounded += Time.deltaTime;
+            if (_secondsGrounded > groundCheckDuration)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        _secondsGrounded = 0;
+        return false;
+    }
+    
+    #endregion
+
+    
+    #region visual debugging
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawSphere(_joints[_bottomJointIndex].Rigidbody2D.position, _joints[_bottomJointIndex].GameObject.transform.lossyScale.y + 0.0001f);
+    }
+
+    #endregion
 }
