@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b5d5aad0-951f-4785-89c8-e3670ded8873" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Spring Is In The Air/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Spring Is In The Air/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Spring Is In The Air/.idea/indexLayout.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.sync_aebbbb7dcf15.db" beforeDir="false" afterPath="$PROJECT_DIR$/.sync_aebbbb7dcf15.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Spring Is In The Air/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Spring Is In The Air/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/SpringController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SpringController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Physics2DSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Physics2DSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +69,7 @@
       <option name="presentableId" value="Default" />
       <updated>1635256680604</updated>
       <workItem from="1635256687486" duration="406000" />
-      <workItem from="1635581354624" duration="3146000" />
+      <workItem from="1635581354624" duration="4793000" />
     </task>
     <servers />
   </component>
@@ -91,13 +86,13 @@
       <breakpoints>
         <line-breakpoint type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/SpringController.cs</url>
-          <line>212</line>
+          <line>221</line>
           <properties documentPath="C:\240 GB SSD Patriot Burst\SSD projects\Spring Is In The Air\Assets\Scripts\SpringController.cs" initialLine="187" containingFunctionPresentation="method 'GroundCheck'">
             <startOffsets>
-              <option value="8359" />
+              <option value="9038" />
             </startOffsets>
             <endOffsets>
-              <option value="8371" />
+              <option value="9050" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="1" />

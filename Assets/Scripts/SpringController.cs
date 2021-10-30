@@ -8,6 +8,8 @@ public class SpringController : MonoBehaviour
     [SerializeField] private float jumpForceUp;
     [SerializeField] private float jumpForceSideways;
     [SerializeField] private float jumpChargeTime;
+    [SerializeField] private float moveHopDelay;
+    [SerializeField] private float moveForceSideways;
     [SerializeField] private int springCount;
     [SerializeField] private float jointScale;
     public float linearDrag;
@@ -34,6 +36,7 @@ public class SpringController : MonoBehaviour
 
     private Joint[] _joints;
     private float _jumpCharge = 0;
+    private float _moveHopDelay = 0;
     private float _secondsGrounded = 0;
     private int _topJointIndex;
     private int _bottomJointIndex;
@@ -112,16 +115,15 @@ public class SpringController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        // makes the spring tilt depending on the direction pressed
-        _joints[_topJointIndex].Rigidbody2D.AddForce(Vector2.right * (Input.GetAxis("Horizontal") * tiltStrength));
+        _moveHopDelay -= Time.deltaTime;
         if (GroundCheck())
         {
-            
             BalancingJointGravity();
             
             if (Input.GetKey(KeyCode.Space))
             {
+                // makes the spring tilt into the direction of the jump
+                _joints[_topJointIndex].Rigidbody2D.AddForce(Vector2.right * (Input.GetAxis("Horizontal") * tiltStrength));
                 _jumpCharge = Mathf.Min(_jumpCharge + Time.deltaTime*jumpChargeTime, 1);    // gradually charge a jump while the jump button is held down
                 _joints[0].Rigidbody2D.drag = linearDragWhileCharging;
                 // makes the spring visibly charge by contracting its joints
@@ -136,9 +138,16 @@ public class SpringController : MonoBehaviour
             {
                 if (_jumpCharge > 0)
                 {
-                    Jump();
+                    // Jump high into the air (or not, depending on the value of _jumpCharge)
+                    Jump(_jumpCharge, jumpForceSideways);
                     _jumpCharge = 0;
                     ResetPhysicalProperties();
+                }
+                else if (Input.GetAxis("Horizontal") != 0 && _moveHopDelay <= 0)
+                {
+                    // Bewegung nach links und rechts
+                    Jump(0, moveForceSideways, ForceMode2D.Impulse);
+                    _moveHopDelay = moveHopDelay;
                 }
             }
         }
@@ -161,11 +170,11 @@ public class SpringController : MonoBehaviour
         }
     }
 
-    private void Jump()
+    private void Jump(float jumpCharge, float jumpForceSideways, ForceMode2D forceMode = ForceMode2D.Force)
     {
-        var upForce = jumpForceUp * _jumpCharge;
+        var upForce = jumpForceUp * jumpCharge;
         _joints[_topJointIndex].Rigidbody2D.mass = bottomJointMass; // quick fix for making the character actually jump instead of spiralling out of control
-        _joints[_topJointIndex].Rigidbody2D.AddForce(new Vector2(Random.value*0.01f + jumpForceSideways*Input.GetAxis("Horizontal"), upForce));
+        _joints[_topJointIndex].Rigidbody2D.AddForce(new Vector2(Random.value*0.01f + jumpForceSideways*Input.GetAxis("Horizontal"), upForce), forceMode);
         TurnUpsideDown();
         BalancingJointGravity(true);
     }
