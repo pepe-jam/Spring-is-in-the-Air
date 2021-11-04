@@ -1224,7 +1224,7 @@ MonoBehaviour:
   tiltStrength: 0.4
   moveHopDelay: 0.74
   moveForceSideways: 11.11
-  springCount: 9
+  springCount: 6
   jointScale: 1.12
   linearDrag: 0.42
   linearDragWhileCharging: 10
@@ -1241,7 +1241,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 55
   groundCheckDuration: 0.19
-  debugMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  rescueSpasmDelay: 5
+  rescueSpasmIntensity: 5
+  rescueSpasmDuration: 0.5
+  debugMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1088506974
 Transform:
   m_ObjectHideFlags: 0

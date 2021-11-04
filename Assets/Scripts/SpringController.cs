@@ -4,14 +4,14 @@ using Random = UnityEngine.Random;
 
 public class SpringController : MonoBehaviour
 {
-    [SerializeField] private float jumpForceUp;
-    [SerializeField] private float jumpForceSideways;
-    [SerializeField] private float jumpChargeTime;
-    [SerializeField] private float tiltStrength;
-    [SerializeField] private float moveHopDelay;
-    [SerializeField] private float moveForceSideways;
-    [SerializeField] private int springCount;
-    [SerializeField] private float jointScale;
+    public float jumpForceUp;
+    public float jumpForceSideways;
+    public float jumpChargeTime;
+    public float tiltStrength;
+    public float moveHopDelay;
+    public float moveForceSideways;
+    public int springCount;
+    public float jointScale;
     public float linearDrag;
     public float linearDragWhileCharging;
     public float dampening; // dampening ratio for spring joints
@@ -27,9 +27,12 @@ public class SpringController : MonoBehaviour
     public float oscillatingFrequency;
 
 
-    [SerializeField] private LayerMask groundLayers;
+    public LayerMask groundLayers;
     [Tooltip("How long the player has to 'lay' on the ground before they are considered grounded and able to jump (in seconds)")]
     public float groundCheckDuration;
+    public float rescueSpasmDelay;
+    public float rescueSpasmIntensity;
+    public float rescueSpasmDuration;
 
     public Mesh debugMesh;
 
@@ -61,7 +64,7 @@ public class SpringController : MonoBehaviour
         _joints[index] = new Joint
         {
             GameObject = new GameObject("SpringJoint " + index, typeof(MeshFilter), typeof(MeshRenderer),
-                typeof(Rigidbody2D), typeof(CircleCollider2D))
+                typeof(Rigidbody2D), typeof(BoxCollider2D))
         };
         _joints[index].GameObject.layer = LayerMask.NameToLayer("Player");  // Add all joints to a separate layer to make ground collision checks possible
         _joints[index].GameObject.transform.localScale = Vector3.one*jointScale/springCount;
@@ -110,6 +113,8 @@ public class SpringController : MonoBehaviour
     # endregion Initialisierung
     
     # region Steuerung
+
+    private float _lastFloorCollisionTime;
     
     // Update is called once per frame
     void Update()
@@ -118,6 +123,7 @@ public class SpringController : MonoBehaviour
         if (GroundCheck())
         {
             BalancingJointGravity();
+            _lastFloorCollisionTime = Time.time;
             
             if (Input.GetKey(KeyCode.Space))
             {
@@ -150,13 +156,18 @@ public class SpringController : MonoBehaviour
                 }
             }
         }
-        else
+        else // if not on ground
         {
             // If the player leaves the ground while charging for a jump, that charging state must be reversed 
             ResetPhysicalProperties();
+            if (Time.time - _lastFloorCollisionTime > rescueSpasmDelay)
+            {
+               RescueSpasm();
+            }
         }
     }
 
+    
     private void ResetPhysicalProperties()
     {
         // instantly discharge the character's spring joints and reset their physics properties back to normal
@@ -202,6 +213,21 @@ public class SpringController : MonoBehaviour
             {
                 _joints[index].Rigidbody2D.gravityScale = weightless ? 0 : balancingJointGravityScale;
             }
+        }
+    }
+
+    private void RescueSpasm()
+    {
+        // rescue spasm
+        for (int index = 1; index < springCount; index++)
+        {
+            _joints[index].SpringJoint2D.distance = rescueSpasmIntensity / springCount;
+        }
+
+        if (Time.time - _lastFloorCollisionTime > rescueSpasmDelay + rescueSpasmDuration)
+        {
+            _lastFloorCollisionTime = Time.time;
+            ResetPhysicalProperties();
         }
     }
 
