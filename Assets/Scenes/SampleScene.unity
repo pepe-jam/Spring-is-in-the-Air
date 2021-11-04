@@ -1124,8 +1124,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 756176375}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 24.747202, y: 9.164947, z: 0.33408517}
-  m_LocalScale: {x: 6.661248, y: 38.5929, z: 1}
+  m_LocalPosition: {x: 25.8109, y: 6.5275, z: 0.33408517}
+  m_LocalScale: {x: 19.20483, y: 40.719368, z: 1}
   m_Children: []
   m_Father: {fileID: 902122240}
   m_RootOrder: 3
@@ -1221,6 +1221,7 @@ MonoBehaviour:
   jumpForceUp: 2233
   jumpForceSideways: 763
   jumpChargeTime: 1
+  tiltStrength: 0.4
   moveHopDelay: 0.74
   moveForceSideways: 11.11
   springCount: 9
@@ -1236,7 +1237,6 @@ MonoBehaviour:
   relaxedDistance: 1.06
   chargedDistance: 0.5
   oscillatingFrequency: 12.3
-  tiltStrength: 0.2
   groundLayers:
     serializedVersion: 2
     m_Bits: 55

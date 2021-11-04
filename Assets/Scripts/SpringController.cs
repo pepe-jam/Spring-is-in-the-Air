@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,6 +7,7 @@ public class SpringController : MonoBehaviour
     [SerializeField] private float jumpForceUp;
     [SerializeField] private float jumpForceSideways;
     [SerializeField] private float jumpChargeTime;
+    [SerializeField] private float tiltStrength;
     [SerializeField] private float moveHopDelay;
     [SerializeField] private float moveForceSideways;
     [SerializeField] private int springCount;
@@ -26,7 +26,6 @@ public class SpringController : MonoBehaviour
     public float chargedDistance;
     public float oscillatingFrequency;
 
-    public float tiltStrength;
 
     [SerializeField] private LayerMask groundLayers;
     [Tooltip("How long the player has to 'lay' on the ground before they are considered grounded and able to jump (in seconds)")]
@@ -40,6 +39,8 @@ public class SpringController : MonoBehaviour
     private float _secondsGrounded = 0;
     private int _topJointIndex;
     private int _bottomJointIndex;
+    
+    #region Initialisierung
 
     // Start is called before the first frame update
     void Start()
@@ -105,12 +106,10 @@ public class SpringController : MonoBehaviour
         public SpringJoint2D SpringJoint2D { get; set; }    
         public Rigidbody2D Rigidbody2D;
     }
-
     
-    # region Controls
-
-  
-
+    # endregion Initialisierung
+    
+    # region Steuerung
     
     // Update is called once per frame
     void Update()
@@ -229,16 +228,5 @@ public class SpringController : MonoBehaviour
         return false;
     }
     
-    #endregion
-
-    
-    #region visual debugging
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawSphere(_joints[_bottomJointIndex].Rigidbody2D.position, _joints[_bottomJointIndex].GameObject.transform.lossyScale.y + 0.0001f);
-    }
-
-    #endregion
+    #endregion Steuerung
 }
