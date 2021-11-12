@@ -1230,9 +1230,9 @@ MonoBehaviour:
   balancingJointGravityScale: -1
   oscillatingFrequency: 12.3
   jumpForceUp: 2233
-  jumpForceSideways: 763
+  jumpForceSideways: 727.66
   jumpChargeTime: 1
-  linearDragWhileCharging: 10
+  linearDragWhileCharging: 1
   dampeningWhileCharging: 4528
   chargingContraction: 0.5
   tiltStrength: 0.4
