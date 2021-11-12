@@ -1218,33 +1218,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337ffd490afc54545b91e19c1475876e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForceUp: 2233
-  jumpForceSideways: 763
-  jumpChargeTime: 1
-  tiltStrength: 0.4
-  moveHopDelay: 0.74
-  moveForceSideways: 11.11
   springCount: 6
+  height: 1.06
   jointScale: 1.12
+  debugMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   linearDrag: 0.42
-  linearDragWhileCharging: 10
   dampening: 0.33
-  dampeningWhileCharging: 4528
   bottomJointMass: 1.5
   bottomJointGravityScale: 1
   balancingJointMass: 0.5
   balancingJointGravityScale: -1
-  relaxedDistance: 1.06
-  chargedDistance: 0.5
   oscillatingFrequency: 12.3
+  jumpForceUp: 2233
+  jumpForceSideways: 763
+  jumpChargeTime: 1
+  linearDragWhileCharging: 10
+  dampeningWhileCharging: 4528
+  chargingContraction: 0.5
+  tiltStrength: 0.4
+  moveDuration: 0.39
+  moveForceSideways: 20
+  moveDistance: 1
+  moveAnimationSpeed: 0.5
   groundLayers:
     serializedVersion: 2
     m_Bits: 55
   groundCheckDuration: 0.19
-  rescueSpasmDelay: 5
+  rescueSpasmDelay: 4
   rescueSpasmIntensity: 5
   rescueSpasmDuration: 0.5
-  debugMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1088506974
 Transform:
   m_ObjectHideFlags: 0
