@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2586483487980866609
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2586483487980866611}
+  - component: {fileID: 2586483487980866608}
+  m_Layer: 3
+  m_Name: PlayerCharacter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2586483487980866611
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586483487980866609}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.241422, y: 0.5646982, z: -0.58519787}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2586483487980866608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586483487980866609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 337ffd490afc54545b91e19c1475876e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  segmentCount: 6
+  height: 1.03
+  segmentScale: 0.57
+  face: {fileID: 21300000, guid: fc29881c4c376224c92c1c703cca1827, type: 3}
+  faceScale: 1
+  jointMaterial: {fileID: 2100000, guid: 419b67e70192b954198040d5ec33d841, type: 2}
+  jointWidth: 0.2
+  linearDrag: 0.42
+  angularDrag: 1
+  dampening: 0.33
+  bottomJointMass: 1.5
+  bottomJointGravityScale: 1
+  balancingJointMass: 0.5
+  balancingJointGravityScale: -1
+  oscillatingFrequency: 12.3
+  jumpForceUp: 1836.18
+  jumpForceSideways: 727.66
+  jumpChargeTime: 1
+  linearDragWhileCharging: 1
+  dampeningWhileCharging: 4528
+  chargingContraction: 0.5
+  tiltStrength: 0.4
+  moveDuration: 0.39
+  moveDistance: 10
+  moveAnimationSpeed: 0.5
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 55
+  groundCheckDuration: 0.19
+  rescueSpasmDelay: 4
+  rescueSpasmIntensity: 5
+  rescueSpasmDuration: 0.5

@@ -1,18 +1,23 @@
-using System;
 using System.Collections;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class SpringController : MonoBehaviour
 {
-    [Header("Spring Shape")]
-    public int springCount;
+    [Header("Appearance")]
+    public int segmentCount;
     public float height;
-    public float jointScale;
-    public Mesh debugMesh;
+    public float segmentScale;
+    //public Mesh segmentMesh;
+    //public Material segmentMaterial;
+    public Sprite face;
+    [Tooltip("Size of the face's segment and therefore the face itself")]
+    public float faceScale;
+    public Material jointMaterial;
+    public float jointWidth;
 
     [Header("Physical Properties")]
     public float linearDrag;
+    public float angularDrag;
     public float dampening; // dampening ratio for spring joints
     public float bottomJointMass;
     public float bottomJointGravityScale;
@@ -33,9 +38,8 @@ public class SpringController : MonoBehaviour
 
     [Header("Left-Right-Movement")]
     public float moveDuration;
-    public float moveForceSideways;
+    //public float moveForceSideways;
     [Tooltip("How far the player will move relative to their height")]
-    [Range(0, 1)]
     public float moveDistance;
     public float moveAnimationSpeed;
     
@@ -51,71 +55,92 @@ public class SpringController : MonoBehaviour
     public float rescueSpasmDuration;
 
 
-    private Joint[] _joints;
+    private Joint[] _segments;
     private float _jumpCharge = 0;
     private float _lastTimeMoved = 0;
     private float _secondsGrounded = 0;
     private int _topJointIndex;
     private int _bottomJointIndex;
+    private float _lastFloorCollisionTime;
+
+    private LineRenderer _lineRenderer;
     
     #region Initialisierung
 
     // Start is called before the first frame update
     void Start()
     {
-        _joints = new Joint[springCount];   // initialize the array containing all joints the character has
+        _segments = new Joint[segmentCount];   // initialize the array containing all joints the character has
         // create the joints of the character
-        for (int index = 0; index < springCount; index++)
+        for (int index = 0; index < segmentCount; index++)
         {
             CreateSpringJointObject(index);
         }
-
-        _topJointIndex = springCount - 1;
+        _topJointIndex = segmentCount - 1;
         _bottomJointIndex = 0;
+        _lineRenderer = gameObject.AddComponent<LineRenderer>();
+        jointMaterial.mainTextureScale = new Vector2(1 / jointWidth, 1);    // to avoid texture stretching on the linerenderer 
+        _lineRenderer.material = jointMaterial;
+        _lineRenderer.positionCount = segmentCount;
+        _lineRenderer.widthMultiplier = jointWidth;
+        _lineRenderer.textureMode = LineTextureMode.Tile;
+        
     }
 
     private void CreateSpringJointObject(int index)
     {
-        _joints[index] = new Joint
+        _segments[index] = new Joint
         {
-            GameObject = new GameObject("SpringJoint " + index, typeof(MeshFilter), typeof(MeshRenderer),
+            GameObject = new GameObject("SpringJoint " + index,
                 typeof(Rigidbody2D), typeof(BoxCollider2D))
         };
-        _joints[index].GameObject.layer = LayerMask.NameToLayer("Player");  // Add all joints to a separate layer to make ground collision checks possible
-        _joints[index].GameObject.transform.localScale = Vector3.one*jointScale/springCount;
-        _joints[index].Rigidbody2D = _joints[index].GameObject.GetComponent<Rigidbody2D>();
-        _joints[index].Rigidbody2D.drag = linearDrag;
-        _joints[index].Rigidbody2D.angularDrag = 1000000f;
-        _joints[index].GameObject.GetComponent<MeshFilter>().mesh = debugMesh;  // just to make the joints visible for debug purposes 
+        _segments[index].GameObject.transform.position = gameObject.transform.position; // makes the Player spawn at the Player Object's position instead of at the world's origin
+        _segments[index].GameObject.layer = LayerMask.NameToLayer("Player");  // Add all joints to a separate layer to make ground collision checks possible
+        _segments[index].GameObject.transform.localScale = Vector3.one*segmentScale/segmentCount;
+        _segments[index].Rigidbody2D = _segments[index].GameObject.GetComponent<Rigidbody2D>();
+        _segments[index].Rigidbody2D.drag = linearDrag;
+        _segments[index].Rigidbody2D.angularDrag = angularDrag;
+        //_segments[index].GameObject.GetComponent<MeshFilter>().mesh = segmentMesh;  // just to make the joints visible for debug purposes 
+        //_segments[index].GameObject.GetComponent<MeshRenderer>().material = segmentMaterial;
         if (index == 0)
         {
             SetBottomJoint(index);
         }
         else
         {
-            _joints[index].SpringJoint2D = _joints[index].GameObject.AddComponent<SpringJoint2D>();
-            _joints[index].SpringJoint2D.connectedBody = _joints[index - 1].GameObject.GetComponent<Rigidbody2D>(); // attach this SpringJoint to the joint before it
-            _joints[index].SpringJoint2D.dampingRatio = dampening;
-            _joints[index].SpringJoint2D.autoConfigureDistance = false;
-            _joints[index].SpringJoint2D.distance = height/springCount;
-            _joints[index].SpringJoint2D.frequency = oscillatingFrequency;
-            _joints[index].SpringJoint2D.enableCollision = false;
+            _segments[index].SpringJoint2D = _segments[index].GameObject.AddComponent<SpringJoint2D>();
+            _segments[index].SpringJoint2D.connectedBody = _segments[index - 1].GameObject.GetComponent<Rigidbody2D>(); // attach this SpringJoint to the joint before it
+            _segments[index].SpringJoint2D.anchor = new Vector2(0, -0.5f);
+            _segments[index].SpringJoint2D.connectedAnchor = new Vector2(0, 0);
+            _segments[index].SpringJoint2D.dampingRatio = dampening;
+            _segments[index].SpringJoint2D.autoConfigureDistance = false;
+            _segments[index].SpringJoint2D.distance = height/segmentCount;
+            _segments[index].SpringJoint2D.frequency = oscillatingFrequency;
+            _segments[index].SpringJoint2D.enableCollision = false;
             SetBalancingJoint(index);
         }
-        _joints[index].GameObject.transform.parent = gameObject.transform;   // macht das aktuelle gameObject zum Elternteil der neu erstellten SpringJoints
+        _segments[index].GameObject.transform.parent = gameObject.transform;   // macht das aktuelle gameObject zum Elternteil der neu erstellten SpringJoints
+        if (index == segmentCount-1)
+        {
+            var faceRenderer = _segments[index].GameObject.AddComponent<SpriteRenderer>();
+            faceRenderer.sprite = face;
+            _segments[index].GameObject.transform.localScale = Vector3.one*faceScale/segmentCount;
+            faceRenderer.sortingLayerName = "Player";
+            faceRenderer.sortingOrder = 99; // render King Spring's face above everything else
+        }
     }
 
     private void SetBottomJoint(int index)
     {
-        _joints[index].Rigidbody2D.mass = bottomJointMass;
-        _joints[index].Rigidbody2D.gravityScale = bottomJointGravityScale;
+        _segments[index].Rigidbody2D.mass = bottomJointMass;
+        _segments[index].Rigidbody2D.gravityScale = bottomJointGravityScale;
         _bottomJointIndex = index;
     }
 
     private void SetBalancingJoint(int index)
     {
-        _joints[index].Rigidbody2D.mass = balancingJointMass/springCount;
-        _joints[index].Rigidbody2D.gravityScale = balancingJointGravityScale;
+        _segments[index].Rigidbody2D.mass = balancingJointMass/segmentCount;
+        _segments[index].Rigidbody2D.gravityScale = balancingJointGravityScale;
     }
     
     private class Joint
@@ -128,31 +153,43 @@ public class SpringController : MonoBehaviour
     
     # endregion Initialisierung
     
-    # region Steuerung
 
-    private float _lastFloorCollisionTime;
     
     // Update is called once per frame
     void Update()
+    {
+        Movement();
+        UpdateLineRenderer();
+    }
+    
+    # region Steuerung
+
+
+    private void Movement()
     {
         if (GroundCheck())
         {
             BalancingJointGravity();
             _lastFloorCollisionTime = Time.time;
-            
+
             if (Input.GetKey(KeyCode.Space))
             {
                 // makes the spring tilt into the direction of the jump
-                _joints[_topJointIndex].Rigidbody2D.AddForce(Vector2.right * (Input.GetAxis("Horizontal") * tiltStrength));
-                _jumpCharge = Mathf.Min(_jumpCharge + Time.deltaTime*jumpChargeTime, 1);    // gradually charge a jump while the jump button is held down
-                _joints[0].Rigidbody2D.drag = linearDragWhileCharging;
+                _segments[_topJointIndex].Rigidbody2D
+                    .AddForce(Vector2.right * (Input.GetAxis("Horizontal") * tiltStrength));
+                _jumpCharge =
+                    Mathf.Min(_jumpCharge + Time.deltaTime * jumpChargeTime,
+                        1); // gradually charge a jump while the jump button is held down
+                _segments[0].Rigidbody2D.drag = linearDragWhileCharging;
                 // makes the spring visibly charge by contracting its joints
-                for (int index = 1; index < springCount; index++)
+                for (int index = 1; index < segmentCount; index++)
                 {
-                    _joints[index].SpringJoint2D.distance = Mathf.Lerp(height/springCount, (height*chargingContraction)/springCount, _jumpCharge);
-                    _joints[index].SpringJoint2D.dampingRatio = dampeningWhileCharging;
-                    _joints[index].Rigidbody2D.drag = linearDragWhileCharging;
+                    _segments[index].SpringJoint2D.distance = Mathf.Lerp(height / segmentCount,
+                        (height * chargingContraction) / segmentCount, _jumpCharge);
+                    _segments[index].SpringJoint2D.dampingRatio = dampeningWhileCharging;
+                    _segments[index].Rigidbody2D.drag = linearDragWhileCharging;
                 }
+                jointMaterial.mainTextureScale = new Vector2(Mathf.Lerp(1, 1/chargingContraction, _jumpCharge) / jointWidth, 1);
             }
             else
             {
@@ -162,8 +199,9 @@ public class SpringController : MonoBehaviour
                     Jump(_jumpCharge, jumpForceSideways);
                     _jumpCharge = 0;
                     ResetPhysicalProperties();
+                    jointMaterial.mainTextureScale = new Vector2(1 / jointWidth, 1);
                 }
-                else if (Input.GetAxis("Horizontal") != 0 && Time.time - _lastTimeMoved > moveDuration )
+                else if (Input.GetAxis("Horizontal") != 0 && Time.time - _lastTimeMoved > moveDuration)
                 {
                     // Bewegung nach links und rechts
                     //Jump(0, moveForceSideways, ForceMode2D.Impulse);
@@ -178,21 +216,21 @@ public class SpringController : MonoBehaviour
             ResetPhysicalProperties();
             if (Time.time - _lastFloorCollisionTime > rescueSpasmDelay)
             {
-               RescueSpasm();
+                RescueSpasm();
             }
         }
     }
 
-    
+
     private void ResetPhysicalProperties()
     {
         // instantly discharge the character's spring joints and reset their physics properties back to normal
-        _joints[0].Rigidbody2D.drag = linearDrag;
-        for (int index = 1; index < springCount; index++)
+        _segments[0].Rigidbody2D.drag = linearDrag;
+        for (int index = 1; index < segmentCount; index++)
         {
-            _joints[index].SpringJoint2D.distance = height / springCount;
-            _joints[index].SpringJoint2D.dampingRatio = dampening;
-            _joints[index].Rigidbody2D.drag = linearDrag;
+            _segments[index].SpringJoint2D.distance = height / segmentCount;
+            _segments[index].SpringJoint2D.dampingRatio = dampening;
+            _segments[index].Rigidbody2D.drag = linearDrag;
         }
     }
 
@@ -200,8 +238,8 @@ public class SpringController : MonoBehaviour
     {
         var jumpForce = jumpCharge * new Vector2(jumpForceSideways * Input.GetAxis("Horizontal"),
             jumpForceUp);
-        _joints[_topJointIndex].Rigidbody2D.mass = bottomJointMass; // quick fix for making the character actually jump instead of spiralling out of control
-        _joints[_topJointIndex].Rigidbody2D.AddForce(jumpForce, forceMode);
+        _segments[_topJointIndex].Rigidbody2D.mass = bottomJointMass; // quick fix for making the character actually jump instead of spiralling out of control
+        _segments[_topJointIndex].Rigidbody2D.AddForce(jumpForce, forceMode);
         TurnUpsideDown();
         BalancingJointGravity(true);
     }
@@ -210,25 +248,25 @@ public class SpringController : MonoBehaviour
     {
         if (_topJointIndex==0)
         {
-            _topJointIndex = springCount - 1;
-            SetBalancingJoint(springCount-1);
+            _topJointIndex = segmentCount - 1;
+            SetBalancingJoint(segmentCount-1);
             SetBottomJoint(0);
         }
         else
         {
             _topJointIndex = 0;
             SetBalancingJoint(0);
-            SetBottomJoint(springCount-1);
+            SetBottomJoint(segmentCount-1);
         }
     }
 
     private void BalancingJointGravity(bool weightless = false)
     {
-        for (int index = 0; index < springCount; index++)
+        for (int index = 0; index < segmentCount; index++)
         {
             if (index != _bottomJointIndex)
             {
-                _joints[index].Rigidbody2D.gravityScale = weightless ? 0 : balancingJointGravityScale;
+                _segments[index].Rigidbody2D.gravityScale = weightless ? 0 : balancingJointGravityScale;
             }
         }
     }
@@ -236,10 +274,10 @@ public class SpringController : MonoBehaviour
     private void RescueSpasm()
     {
         // rescue spasm
-        for (int index = 1; index < springCount; index++)
+        for (int index = 1; index < segmentCount; index++)
         {
-            _joints[index].SpringJoint2D.distance = rescueSpasmIntensity / springCount;
-            _joints[index].SpringJoint2D.dampingRatio = dampeningWhileCharging;
+            _segments[index].SpringJoint2D.distance = rescueSpasmIntensity * height / segmentCount;
+            _segments[index].SpringJoint2D.dampingRatio = dampeningWhileCharging;
         }
         // end of rescue spasm
         if (Time.time - _lastFloorCollisionTime > rescueSpasmDelay + rescueSpasmDuration)
@@ -257,7 +295,7 @@ public class SpringController : MonoBehaviour
      */
     private bool GroundCheck()
     {
-        if (Physics2D.OverlapCircle(_joints[_bottomJointIndex].Rigidbody2D.position, _joints[_bottomJointIndex].GameObject.transform.lossyScale.y + 0.0001f, groundLayers))
+        if (Physics2D.OverlapCircle(_segments[_bottomJointIndex].Rigidbody2D.position, _segments[_bottomJointIndex].GameObject.transform.lossyScale.y + 0.0001f, groundLayers))
         {
             _secondsGrounded += Time.deltaTime;
             if (_secondsGrounded > groundCheckDuration)
@@ -281,19 +319,19 @@ public class SpringController : MonoBehaviour
         // direction will be 1 or -1, depending on whether the player wanted to go left or right
         float direction = Input.GetAxis("Horizontal") / Mathf.Abs(Input.GetAxis("Horizontal"));
         Vector2 positionOffset = new Vector2(direction * moveDistance * height, 0);
-        _joints[_bottomJointIndex].Rigidbody2D.gravityScale = bottomJointGravityScale;
-        Vector2 bottomJointVelocity = _joints[_bottomJointIndex].Rigidbody2D.velocity;  // copy
+        _segments[_bottomJointIndex].Rigidbody2D.gravityScale = bottomJointGravityScale;
+        Vector2 bottomJointVelocity = _segments[_bottomJointIndex].Rigidbody2D.velocity;  // copy
         do
         {
             // funtkioniert nicht
-            var current_position = _joints[_topJointIndex].Rigidbody2D.position;
-            var target_position = _joints[_bottomJointIndex].Rigidbody2D.position + positionOffset;
+            var current_position = _segments[_topJointIndex].Rigidbody2D.position;
+            var target_position = _segments[_bottomJointIndex].Rigidbody2D.position + positionOffset;
             //_joints[_topJointIndex].Rigidbody2D.velocity = (current_position - target_position).normalized * moveAnimationSpeed;
-            _joints[_topJointIndex].Rigidbody2D.position = Vector2.MoveTowards(current_position, target_position, moveAnimationSpeed);
+            _segments[_topJointIndex].Rigidbody2D.position = Vector2.MoveTowards(current_position, target_position, moveAnimationSpeed);
             yield return null;
         } while (Time.time - _lastTimeMoved > moveDuration);
 
-        _joints[_topJointIndex].Rigidbody2D.velocity = bottomJointVelocity; // paste
+        _segments[_topJointIndex].Rigidbody2D.velocity = bottomJointVelocity; // paste
         TurnUpsideDown();
         BalancingJointGravity();
     }
@@ -322,4 +360,12 @@ public class SpringController : MonoBehaviour
     
     
     #endregion Steuerung
+
+    private void UpdateLineRenderer()
+    {
+        for (int index = 0; index < _segments.Length; index++)
+        {
+            _lineRenderer.SetPosition(index, _segments[index].GameObject.transform.position);
+        }
+    }
 }
