@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   segmentCount: 6
-  height: 1.03
-  segmentScale: 0.57
+  height: 0.88
+  segmentScale: 1.16
   face: {fileID: 21300000, guid: fc29881c4c376224c92c1c703cca1827, type: 3}
   faceScale: 1
   jointMaterial: {fileID: 2100000, guid: 419b67e70192b954198040d5ec33d841, type: 2}
@@ -57,13 +57,14 @@ MonoBehaviour:
   bottomJointGravityScale: 1
   balancingJointMass: 0.5
   balancingJointGravityScale: -1
-  oscillatingFrequency: 12.3
-  jumpForceUp: 1836.18
-  jumpForceSideways: 727.66
+  oscillatingFrequency: 15.59
+  jumpForceUp: 1463.4
+  jumpForceSideways: 728.5
   jumpChargeTime: 1
   linearDragWhileCharging: 1
   dampeningWhileCharging: 4528
   chargingContraction: 0.5
+  groundCheckSkipDuration: 0.5
   tiltStrength: 0.4
   moveDuration: 0.39
   moveDistance: 10
@@ -75,3 +76,4 @@ MonoBehaviour:
   rescueSpasmDelay: 4
   rescueSpasmIntensity: 5
   rescueSpasmDuration: 0.5
+  _lastTimeJumped: 0

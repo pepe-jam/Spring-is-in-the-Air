@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -33,6 +34,8 @@ public class SpringController : MonoBehaviour
     public float linearDragWhileCharging;
     public float dampeningWhileCharging; // dampening ratio for spring joints
     public float chargingContraction;
+    [Tooltip("Controls for how many seconds after a jump the GroundCheck always fails to prevent weird things from happening.")]
+    public float groundCheckSkipDuration;
     [Tooltip("How far the player leans into the direction they are aiming towards")]
     public float tiltStrength;
 
@@ -58,6 +61,7 @@ public class SpringController : MonoBehaviour
     private Joint[] _segments;
     private float _jumpCharge = 0;
     private float _lastTimeMoved = 0;
+    public float _lastTimeJumped = 0;
     private float _secondsGrounded = 0;
     private int _topJointIndex;
     private int _bottomJointIndex;
@@ -100,6 +104,7 @@ public class SpringController : MonoBehaviour
         _segments[index].Rigidbody2D = _segments[index].GameObject.GetComponent<Rigidbody2D>();
         _segments[index].Rigidbody2D.drag = linearDrag;
         _segments[index].Rigidbody2D.angularDrag = angularDrag;
+        _segments[index].Rigidbody2D.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         //_segments[index].GameObject.GetComponent<MeshFilter>().mesh = segmentMesh;  // just to make the joints visible for debug purposes 
         //_segments[index].GameObject.GetComponent<MeshRenderer>().material = segmentMaterial;
         if (index == 0)
@@ -242,6 +247,7 @@ public class SpringController : MonoBehaviour
         _segments[_topJointIndex].Rigidbody2D.AddForce(jumpForce, forceMode);
         TurnUpsideDown();
         BalancingJointGravity(true);
+        _lastTimeJumped = Time.time;
     }
 
     private void TurnUpsideDown()
@@ -295,6 +301,10 @@ public class SpringController : MonoBehaviour
      */
     private bool GroundCheck()
     {
+        if (Time.time - _lastTimeJumped < groundCheckSkipDuration)
+        {
+            return false;
+        }
         if (Physics2D.OverlapCircle(_segments[_bottomJointIndex].Rigidbody2D.position, _segments[_bottomJointIndex].GameObject.transform.lossyScale.y + 0.0001f, groundLayers))
         {
             _secondsGrounded += Time.deltaTime;
@@ -368,4 +378,21 @@ public class SpringController : MonoBehaviour
             _lineRenderer.SetPosition(index, _segments[index].GameObject.transform.position);
         }
     }
+
+    #region public Getters
+
+    public Transform GetFaceSegment()
+    {
+        try
+        {
+            return _segments[segmentCount - 1].GameObject.transform;
+        }
+        catch (NullReferenceException e)
+        {
+            Console.WriteLine(e);
+            return null;
+        }
+    }
+
+    #endregion
 }
