@@ -61,7 +61,7 @@ public class SpringController : MonoBehaviour
     private Joint[] _segments;
     private float _jumpCharge = 0;
     private float _lastTimeMoved = 0;
-    public float _lastTimeJumped = 0;
+    private float _lastTimeJumped = 0;
     private float _secondsGrounded = 0;
     private int _topJointIndex;
     private int _bottomJointIndex;

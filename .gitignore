@@ -149,3 +149,4 @@ fabric.properties
 
 # Nextcloud
 ._sync*
+.owncloudsync.log
