@@ -48,7 +48,7 @@ MonoBehaviour:
   segmentScale: 1.16
   face: {fileID: 21300000, guid: fc29881c4c376224c92c1c703cca1827, type: 3}
   faceScale: 1
-  jointMaterial: {fileID: 2100000, guid: 419b67e70192b954198040d5ec33d841, type: 2}
+  jointMaterial: {fileID: 2100000, guid: 7247b629e057fb242b387b30f953a5c2, type: 2}
   jointWidth: 0.2
   linearDrag: 0.42
   angularDrag: 1
@@ -76,4 +76,3 @@ MonoBehaviour:
   rescueSpasmDelay: 4
   rescueSpasmIntensity: 5
   rescueSpasmDuration: 0.5
-  _lastTimeJumped: 0
