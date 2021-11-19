@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Sewer Water
+  m_Name: "Dreckwasserpf\xFCtze"
   m_Shader: {fileID: -6465566751694194690, guid: 6775bb60e09e91e479d8f19c29635ec2, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
