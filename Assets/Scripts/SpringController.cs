@@ -1,6 +1,10 @@
 using System;
 using System.Collections;
+using FMODUnity;
+using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Video;
 
 public class SpringController : MonoBehaviour
 {
@@ -38,13 +42,22 @@ public class SpringController : MonoBehaviour
     public float groundCheckSkipDuration;
     [Tooltip("How far the player leans into the direction they are aiming towards")]
     public float tiltStrength;
+    
 
-    [Header("Left-Right-Movement")]
+    [Header("Walking (Left-Right-Movement)")]
+    [Tooltip("How long it takes for a single move cycle to complete")]
     public float moveDuration;
+
+    [Tooltip("The time the player waits between two move cycles. Must be a positive number.")]
+    public float moveDelay;
     //public float moveForceSideways;
     [Tooltip("How far the player will move relative to their height")]
     public float moveDistance;
     public float moveAnimationSpeed;
+    [Tooltip("0 means the player will bash their head into the ground when walking, 1 means they will merely lean over before falling over")]
+    [Range(0f, 1f)]
+    public float walkingHeight;
+    
     
    
     [Header("Ground Check")]
@@ -56,6 +69,13 @@ public class SpringController : MonoBehaviour
     public float rescueSpasmDelay;
     public float rescueSpasmIntensity;
     public float rescueSpasmDuration;
+
+    [Header("Audio")] 
+    public CollisionSoundEvents collisionSoundEvents;
+    public StudioEventEmitter jumpSound;
+    public StudioEventEmitter startWalkSound;
+    public  StudioEventEmitter stopWalkSound;
+
 
 
     private Joint[] _segments;
@@ -96,7 +116,7 @@ public class SpringController : MonoBehaviour
         _segments[index] = new Joint
         {
             GameObject = new GameObject("SpringJoint " + index,
-                typeof(Rigidbody2D), typeof(BoxCollider2D))
+                typeof(Rigidbody2D), typeof(BoxCollider2D), typeof(CollisionAudioPlayer)) 
         };
         _segments[index].GameObject.transform.position = gameObject.transform.position; // makes the Player spawn at the Player Object's position instead of at the world's origin
         _segments[index].GameObject.layer = LayerMask.NameToLayer("Player");  // Add all joints to a separate layer to make ground collision checks possible
@@ -104,9 +124,8 @@ public class SpringController : MonoBehaviour
         _segments[index].Rigidbody2D = _segments[index].GameObject.GetComponent<Rigidbody2D>();
         _segments[index].Rigidbody2D.drag = linearDrag;
         _segments[index].Rigidbody2D.angularDrag = angularDrag;
-        _segments[index].Rigidbody2D.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-        //_segments[index].GameObject.GetComponent<MeshFilter>().mesh = segmentMesh;  // just to make the joints visible for debug purposes 
-        //_segments[index].GameObject.GetComponent<MeshRenderer>().material = segmentMaterial;
+        _segments[index].Rigidbody2D.collisionDetectionMode = CollisionDetectionMode2D.Continuous;  // prevents the player from partially phasing through walls
+        _segments[index].GameObject.GetComponent<CollisionAudioPlayer>().collisionSoundEvents = collisionSoundEvents;
         if (index == 0)
         {
             SetBottomJoint(index);
@@ -206,11 +225,11 @@ public class SpringController : MonoBehaviour
                     ResetPhysicalProperties();
                     jointMaterial.mainTextureScale = new Vector2(1 / jointWidth, 1);
                 }
-                else if (Input.GetAxis("Horizontal") != 0 && Time.time - _lastTimeMoved > moveDuration)
+                else if (Input.GetAxis("Horizontal") != 0 && Time.time - _lastTimeMoved > moveDelay)
                 {
                     // Bewegung nach links und rechts
                     //Jump(0, moveForceSideways, ForceMode2D.Impulse);
-                    StartCoroutine(nameof(Move));
+                    StartCoroutine(nameof(Walk));
                     _lastTimeMoved = Time.time;
                 }
             }
@@ -248,8 +267,10 @@ public class SpringController : MonoBehaviour
         TurnUpsideDown();
         BalancingJointGravity(true);
         _lastTimeJumped = Time.time;
+        var parameters = jumpSound.Params;
+        jumpSound.Play();
+        jumpSound.SetParameter("jumpCharge", jumpCharge);   // in that order.
     }
-
     private void TurnUpsideDown()
     {
         if (_topJointIndex==0)
@@ -323,50 +344,32 @@ public class SpringController : MonoBehaviour
     /*
      * Gradually moves the top joint next to the bottom joint before switching roles. Velocity is copied from the previous bottom joint to the new one.
      */
-    private IEnumerator Move()
+    private IEnumerator Walk()
     {
         _lastTimeMoved = Time.time;
         // direction will be 1 or -1, depending on whether the player wanted to go left or right
         float direction = Input.GetAxis("Horizontal") / Mathf.Abs(Input.GetAxis("Horizontal"));
-        Vector2 positionOffset = new Vector2(direction * moveDistance * height, 0);
+        Vector2 positionOffset = new Vector2(
+            direction * moveDistance * height, 
+            walkingHeight/height);
         _segments[_bottomJointIndex].Rigidbody2D.gravityScale = bottomJointGravityScale;
         Vector2 bottomJointVelocity = _segments[_bottomJointIndex].Rigidbody2D.velocity;  // copy
-        do
+        startWalkSound.Play();
+        
+        while (Time.time - _lastTimeMoved < moveDuration)
         {
-            // funtkioniert nicht
-            var current_position = _segments[_topJointIndex].Rigidbody2D.position;
-            var target_position = _segments[_bottomJointIndex].Rigidbody2D.position + positionOffset;
-            //_joints[_topJointIndex].Rigidbody2D.velocity = (current_position - target_position).normalized * moveAnimationSpeed;
-            _segments[_topJointIndex].Rigidbody2D.position = Vector2.MoveTowards(current_position, target_position, moveAnimationSpeed);
+            var currentPosition = _segments[_topJointIndex].Rigidbody2D.position;
+            var targetPosition = _segments[_bottomJointIndex].Rigidbody2D.position + positionOffset;
+            _segments[_topJointIndex].Rigidbody2D.position = Vector2.MoveTowards(currentPosition, targetPosition, moveAnimationSpeed);
             yield return null;
-        } while (Time.time - _lastTimeMoved > moveDuration);
+        }
 
         _segments[_topJointIndex].Rigidbody2D.velocity = bottomJointVelocity; // paste
         TurnUpsideDown();
         BalancingJointGravity();
+        stopWalkSound.Play();
+        
     }
-
-    /*
-     primitive approach to moving where perpendicular forces are applied to the top and bottom joint whilst the top joint is falling down.
-     Causes the player to turn into a woolen ball and get stuck when trying to move back and forth.
-    private IEnumerator Move()
-    {
-        // direction will be 1 or -1, depending on whether the player wanted to go left or right
-        float direction = Input.GetAxis("Horizontal") / Mathf.Abs(Input.GetAxis("Horizontal"));
-        var moveForce = new Vector2(direction * moveForceSideways, 0);
-        _lastTimeMoved = Time.time;
-        _joints[_topJointIndex].Rigidbody2D.gravityScale = bottomJointGravityScale;
-        _joints[_topJointIndex].Rigidbody2D.mass = bottomJointMass;
-        do
-        {
-            _joints[_topJointIndex].Rigidbody2D.AddForce(moveForce);
-            _joints[_bottomJointIndex].Rigidbody2D.AddForce(-moveForce);
-            yield return null;
-        } while (Time.time - _lastTimeMoved > moveDuration);
-        TurnUpsideDown();
-        BalancingJointGravity();
-    }
-    */
     
     
     #endregion Steuerung
@@ -381,11 +384,11 @@ public class SpringController : MonoBehaviour
 
     #region public Getters
 
-    public Transform GetFaceSegment()
+    public GameObject GetFaceSegment()
     {
         try
         {
-            return _segments[segmentCount - 1].GameObject.transform;
+            return _segments[segmentCount - 1].GameObject;
         }
         catch (NullReferenceException e)
         {

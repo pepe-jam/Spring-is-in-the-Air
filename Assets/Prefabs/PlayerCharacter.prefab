@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2586483487980866611}
   - component: {fileID: 2586483487980866608}
+  - component: {fileID: 1824313765}
+  - component: {fileID: 8024195944171979736}
+  - component: {fileID: 1824313766}
   m_Layer: 3
   m_Name: PlayerCharacter
   m_TagString: Untagged
@@ -66,8 +69,9 @@ MonoBehaviour:
   chargingContraction: 0.5
   groundCheckSkipDuration: 0.5
   tiltStrength: 0.76
-  moveDuration: 0.39
-  moveDistance: 10
+  moveDuration: 0.1
+  moveDelay: 0.39
+  moveDistance: 1
   moveAnimationSpeed: 0.5
   groundLayers:
     serializedVersion: 2
@@ -76,3 +80,97 @@ MonoBehaviour:
   rescueSpasmDelay: 4
   rescueSpasmIntensity: 5
   rescueSpasmDuration: 0.5
+  collisionSoundEvents: {fileID: 11400000, guid: f3a5d4e149f0c534c89575c239d6622f, type: 2}
+  jumpSound: {fileID: 1824313765}
+  startWalkSound: {fileID: 1824313766}
+  stopWalkSound: {fileID: 8024195944171979736}
+--- !u!114 &1824313765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586483487980866609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1581863059
+      Data2: 1199601447
+      Data3: -1126426209
+      Data4: -912165962
+    Path: event:/Jump
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &8024195944171979736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586483487980866609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -91995772
+      Data2: 1201688208
+      Data3: 1277382331
+      Data4: 563878586
+    Path: event:/Walk Creak 2
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &1824313766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586483487980866609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -501367590
+      Data2: 1094892802
+      Data3: 1081717646
+      Data4: -1033242839
+    Path: event:/Walk Creak 1
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20

@@ -24,19 +24,18 @@ public class CinemachineFollowPlayerSetter : MonoBehaviour
 
     private IEnumerator SetFollowPlayer()
     {
-        bool playerInstatniated = false;   // Player Character cannot be found if it hasn't been created yet
-        while (!playerInstatniated)
+        bool playerInstantiated = false;   // Player Character cannot be found if it hasn't been created yet
+        while (!playerInstantiated)
         {
             var playerHead = playerSpringController.GetFaceSegment();
             if (playerHead)
             {
-                playerInstatniated = true;
-                foreach (var camera in virtualCameras)
+                playerInstantiated = true;
+                foreach (var vcam in virtualCameras)
                 {
-                    camera.Follow = playerHead;
+                    vcam.Follow = playerHead.transform;
                 }
             }
-
             yield return null;
         }
     }
