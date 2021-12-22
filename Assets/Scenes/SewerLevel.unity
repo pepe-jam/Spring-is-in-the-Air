@@ -62921,16 +62921,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2586483487980866608, guid: 5f37af88da394c64b85181b881427039, type: 3}
-      propertyPath: collisionSoundEvents
-      value: 
-      objectReference: {fileID: 11400000, guid: f3a5d4e149f0c534c89575c239d6622f, type: 2}
+      propertyPath: walkingHeight
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2586483487980866609, guid: 5f37af88da394c64b85181b881427039, type: 3}
       propertyPath: m_Name
       value: PlayerCharacter
-      objectReference: {fileID: 0}
-    - target: {fileID: 2586483487980866609, guid: 5f37af88da394c64b85181b881427039, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2586483487980866611, guid: 5f37af88da394c64b85181b881427039, type: 3}
       propertyPath: m_RootOrder
