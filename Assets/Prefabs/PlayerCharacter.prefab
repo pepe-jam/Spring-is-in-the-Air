@@ -61,6 +61,7 @@ MonoBehaviour:
   balancingJointMass: 0.5
   balancingJointGravityScale: -1
   oscillatingFrequency: 15.59
+  physicsMaterial2D: {fileID: 6200000, guid: df2e5c5fd505be148ba305a82a1a7bbd, type: 2}
   jumpForceUp: 1463.4
   jumpForceSideways: 708.5
   jumpChargeTime: 1
@@ -71,8 +72,9 @@ MonoBehaviour:
   tiltStrength: 0.76
   moveDuration: 0.1
   moveDelay: 0.39
-  moveDistance: 1
-  moveAnimationSpeed: 0.5
+  moveDistance: 1.25
+  moveAnimationSpeed: 0.11
+  walkingHeight: 1
   groundLayers:
     serializedVersion: 2
     m_Bits: 55

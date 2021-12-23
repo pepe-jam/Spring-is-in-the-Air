@@ -29,6 +29,7 @@ public class SpringController : MonoBehaviour
     public float balancingJointMass;
     public float balancingJointGravityScale;
     public float oscillatingFrequency;
+    public PhysicsMaterial2D physicsMaterial2D;
 
     
     [Header("Jumping")]
@@ -78,7 +79,7 @@ public class SpringController : MonoBehaviour
 
 
 
-    private Joint[] _segments;
+    private Segment[] _segments;
     private float _jumpCharge = 0;
     private float _lastTimeMoved = 0;
     private float _lastTimeJumped = 0;
@@ -94,7 +95,7 @@ public class SpringController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _segments = new Joint[segmentCount];   // initialize the array containing all joints the character has
+        _segments = new Segment[segmentCount];   // initialize the array containing all joints the character has
         // create the joints of the character
         for (int index = 0; index < segmentCount; index++)
         {
@@ -111,9 +112,17 @@ public class SpringController : MonoBehaviour
         
     }
 
+    private class Segment
+    {
+        public GameObject GameObject { get; set; }
+        // So we don't have to call GetComponent() every time the spring turns around, we can save a reference to important components it as a property
+        public SpringJoint2D SpringJoint2D { get; set; }    
+        public Rigidbody2D Rigidbody2D;
+        public CollisionAudioPlayer CollisionAudioPlayer;
+    }
     private void CreateSpringJointObject(int index)
     {
-        _segments[index] = new Joint
+        _segments[index] = new Segment
         {
             GameObject = new GameObject("SpringJoint " + index,
                 typeof(Rigidbody2D), typeof(BoxCollider2D), typeof(CollisionAudioPlayer)) 
@@ -125,7 +134,11 @@ public class SpringController : MonoBehaviour
         _segments[index].Rigidbody2D.drag = linearDrag;
         _segments[index].Rigidbody2D.angularDrag = angularDrag;
         _segments[index].Rigidbody2D.collisionDetectionMode = CollisionDetectionMode2D.Continuous;  // prevents the player from partially phasing through walls
-        _segments[index].GameObject.GetComponent<CollisionAudioPlayer>().collisionSoundEvents = collisionSoundEvents;
+        _segments[index].Rigidbody2D.sharedMaterial = physicsMaterial2D;
+        _segments[index].GameObject.GetComponent<Collider2D>().sharedMaterial = physicsMaterial2D;
+        _segments[index].CollisionAudioPlayer = _segments[index].GameObject.GetComponent<CollisionAudioPlayer>();
+        _segments[index].CollisionAudioPlayer.collisionSoundEvents = collisionSoundEvents;
+        _segments[index].CollisionAudioPlayer.ignoredPhysicsMaterials = new[] { physicsMaterial2D };
         if (index == 0)
         {
             SetBottomJoint(index);
@@ -167,13 +180,7 @@ public class SpringController : MonoBehaviour
         _segments[index].Rigidbody2D.gravityScale = balancingJointGravityScale;
     }
     
-    private class Joint
-    {
-        public GameObject GameObject { get; set; }
-        // So we don't have to call GetComponent() every time the spring turns around, we can save a reference to important components it as a property
-        public SpringJoint2D SpringJoint2D { get; set; }    
-        public Rigidbody2D Rigidbody2D;
-    }
+
     
     # endregion Initialisierung
     

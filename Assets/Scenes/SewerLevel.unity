@@ -444,6 +444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collisionSoundEvents: {fileID: 11400000, guid: f3a5d4e149f0c534c89575c239d6622f, type: 2}
+  ignoredPhysicsMaterials: []
 --- !u!50 &538188035
 Rigidbody2D:
   serializedVersion: 4
@@ -62921,8 +62922,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2586483487980866608, guid: 5f37af88da394c64b85181b881427039, type: 3}
-      propertyPath: walkingHeight
-      value: 1
+      propertyPath: moveDistance
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2586483487980866608, guid: 5f37af88da394c64b85181b881427039, type: 3}
+      propertyPath: moveAnimationSpeed
+      value: 0.11
       objectReference: {fileID: 0}
     - target: {fileID: 2586483487980866609, guid: 5f37af88da394c64b85181b881427039, type: 3}
       propertyPath: m_Name
@@ -62934,11 +62939,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2586483487980866611, guid: 5f37af88da394c64b85181b881427039, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.47
+      value: 4.55
       objectReference: {fileID: 0}
     - target: {fileID: 2586483487980866611, guid: 5f37af88da394c64b85181b881427039, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.99
+      value: 1.03
       objectReference: {fileID: 0}
     - target: {fileID: 2586483487980866611, guid: 5f37af88da394c64b85181b881427039, type: 3}
       propertyPath: m_LocalPosition.z

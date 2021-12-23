@@ -8,7 +8,12 @@ using UnityEngine;
 public class CollisionAudioPlayer : MonoBehaviour
 {
     public CollisionSoundEvents collisionSoundEvents;
+    public PhysicsMaterial2D[] ignoredPhysicsMaterials;
+    
     private Rigidbody2D rigidbody2D;
+    
+
+    private readonly EventReference IGNORED_TOKEN = new EventReference();
 
     private void Start()
     {
@@ -17,6 +22,10 @@ public class CollisionAudioPlayer : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
+        if (Array.IndexOf(ignoredPhysicsMaterials, col.collider.sharedMaterial) >= 0)    // if physicsMaterial2D should be ignored
+        {
+            return;
+        }
         EventReference eventToTrigger = GetFmodEventFromPhysicsMaterial(col.collider.sharedMaterial);
         var instance = FMODUnity.RuntimeManager.CreateInstance(eventToTrigger);
         instance.start();
@@ -30,6 +39,7 @@ public class CollisionAudioPlayer : MonoBehaviour
 
     private EventReference GetFmodEventFromPhysicsMaterial(PhysicsMaterial2D physicsMaterial2D)
     {
+        
         foreach (var pair in collisionSoundEvents.fmodEventPerPhysicsMaterial)
         {
             if (pair.physicsMaterial)
