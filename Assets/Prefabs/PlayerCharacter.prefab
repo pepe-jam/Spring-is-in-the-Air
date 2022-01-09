@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337ffd490afc54545b91e19c1475876e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  segmentCount: 6
+  segmentCount: 5
   height: 0.88
   segmentScale: 1.16
   face: {fileID: 21300000, guid: fc29881c4c376224c92c1c703cca1827, type: 3}

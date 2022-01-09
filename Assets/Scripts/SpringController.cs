@@ -157,7 +157,7 @@ public class SpringController : MonoBehaviour
             SetBalancingJoint(index);
         }
         _segments[index].GameObject.transform.parent = gameObject.transform;   // macht das aktuelle gameObject zum Elternteil der neu erstellten SpringJoints
-        if (index == segmentCount-1)
+        if (index == Mathf.Round((segmentCount-1)/2f))
         {
             var faceRenderer = _segments[index].GameObject.AddComponent<SpriteRenderer>();
             faceRenderer.sprite = face;
