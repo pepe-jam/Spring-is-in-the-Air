@@ -20,14 +20,30 @@ MonoBehaviour:
         Data2: 1194860958
         Data3: -12240717
         Data4: 190999224
-      Path: event:/collide_stone_wall
+      Path: event:/Collisions/collide_stone_wall
+  - physicsMaterial: {fileID: 6200000, guid: c713743073277df40aa121e12d5f31b5, type: 2}
+    fmodEvent:
+      Guid:
+        Data1: -512403335
+        Data2: 1267578129
+        Data3: -164554359
+        Data4: 66004291
+      Path: event:/Collisions/collide_metal_pipe
+  - physicsMaterial: {fileID: 6200000, guid: 39113421f8f2c4e4394a98949236c063, type: 2}
+    fmodEvent:
+      Guid:
+        Data1: 1225336082
+        Data2: 1229326270
+        Data3: -1743865940
+        Data4: 1905304097
+      Path: event:/Collisions/collide_wood
   defaultFmodEvent:
     Guid:
       Data1: -1852973844
       Data2: 1194860958
       Data3: -12240717
       Data4: 190999224
-    Path: event:/collide_stone_wall
+    Path: event:/Collisions/collide_stone_wall
   loudnessCurve:
     serializedVersion: 2
     m_Curve:

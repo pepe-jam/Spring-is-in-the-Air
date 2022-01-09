@@ -4,6 +4,9 @@
 		<relationship name="masterBus">
 			<destination>{01bdba80-121f-4c0b-9189-d27138569146}</destination>
 		</relationship>
+		<relationship name="port">
+			<destination>{fd3c29ad-c6cc-49f1-bb89-06ae7c7f2a56}</destination>
+		</relationship>
 		<relationship name="snapshotList">
 			<destination>{9d8fde88-c34c-4f76-a778-3310596bd80d}</destination>
 		</relationship>

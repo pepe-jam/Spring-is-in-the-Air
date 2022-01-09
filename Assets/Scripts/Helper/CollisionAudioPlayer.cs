@@ -29,8 +29,8 @@ public class CollisionAudioPlayer : MonoBehaviour
         EventReference eventToTrigger = GetFmodEventFromPhysicsMaterial(col.collider.sharedMaterial);
         var instance = FMODUnity.RuntimeManager.CreateInstance(eventToTrigger);
         instance.start();
-        float collisionVelocity = col.rigidbody ? (col.rigidbody.velocity - rigidbody2D.velocity).magnitude : rigidbody2D.velocity.magnitude;
-        var impact_force_parameter = collisionSoundEvents.loudnessCurve.Evaluate(collisionVelocity / Physics2D.maxTranslationSpeed);
+        float collisionVelocity = col.relativeVelocity.magnitude;
+        var impact_force_parameter = collisionSoundEvents.loudnessCurve.Evaluate(Mathf.Min(1f, collisionVelocity / Physics2D.maxTranslationSpeed));
         instance.setParameterByName(collisionSoundEvents.impactForceParameterName, impact_force_parameter);
         instance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject, rigidbody2D));
         RuntimeManager.AttachInstanceToGameObject(instance, transform, rigidbody2D);
@@ -42,7 +42,7 @@ public class CollisionAudioPlayer : MonoBehaviour
         
         foreach (var pair in collisionSoundEvents.fmodEventPerPhysicsMaterial)
         {
-            if (pair.physicsMaterial)
+            if (pair.physicsMaterial == physicsMaterial2D)
             {
                 return pair.fmodEvent;
             }   

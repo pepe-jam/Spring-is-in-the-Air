@@ -125,7 +125,7 @@ public class SpringController : MonoBehaviour
         _segments[index] = new Segment
         {
             GameObject = new GameObject("SpringJoint " + index,
-                typeof(Rigidbody2D), typeof(BoxCollider2D), typeof(CollisionAudioPlayer)) 
+                typeof(Rigidbody2D), typeof(BoxCollider2D), typeof(CollisionAudioPlayer), typeof(MaxSpeedometer)) 
         };
         _segments[index].GameObject.transform.position = gameObject.transform.position; // makes the Player spawn at the Player Object's position instead of at the world's origin
         _segments[index].GameObject.layer = LayerMask.NameToLayer("Player");  // Add all joints to a separate layer to make ground collision checks possible
