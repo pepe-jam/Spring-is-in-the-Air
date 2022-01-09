@@ -72,8 +72,8 @@ MonoBehaviour:
   tiltStrength: 0.76
   moveDuration: 0.1
   moveDelay: 0.39
-  moveDistance: 1.25
-  moveAnimationSpeed: 0.11
+  moveDistance: 4.04
+  moveAnimationSpeed: 1.65
   walkingHeight: 1
   groundLayers:
     serializedVersion: 2

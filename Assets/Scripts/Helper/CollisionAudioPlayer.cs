@@ -35,6 +35,7 @@ public class CollisionAudioPlayer : MonoBehaviour
         instance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject, rigidbody2D));
         RuntimeManager.AttachInstanceToGameObject(instance, transform, rigidbody2D);
         instance.release();
+        //Debug.Log("Collided with an impact force of " + impact_force_parameter);
     }
 
     private EventReference GetFmodEventFromPhysicsMaterial(PhysicsMaterial2D physicsMaterial2D)
