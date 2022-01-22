@@ -1,0 +1,91 @@
+using System.Collections;
+using UnityEngine;
+using UnityEngine.Events;
+
+public class LevelTransitionAnimation : MonoBehaviour
+{
+    public UnityEvent transitionCompleted;
+    public Transform catapultingNPC;
+    public Transform jumpingOffPosition;    // should be a child of catapultingNPC
+    public Animator sceneTransitionAnimator;
+
+    // all time-based parameters are in seconds
+    public float moveIntoPlaceDuration = 1;
+    public float chargingDuration = 1;
+    public float superjumpHeight = 20;
+    public float superjumpDuration = 1;
+    public float pauseDuration = 1;
+
+    public void StartAnimation()
+    {
+        StartCoroutine(nameof(PlayAnimation));
+    }
+
+    private IEnumerator PlayAnimation()
+    {
+        // move into position
+        
+        var bottomPlayerJoint = SpringController.Instance.GetBottomSegment();
+        bottomPlayerJoint.GetComponent<Rigidbody2D>().isKinematic = true;
+        var startPosition = bottomPlayerJoint.transform.position;
+        var startTime = Time.time;
+        var velocity = Vector3.zero;
+        var gettingInPosition = 0f;
+        
+        while (gettingInPosition <= 1f)
+        {
+            velocity = MovePlayerInPosition(bottomPlayerJoint, velocity, gettingInPosition);
+            gettingInPosition = (Time.time - startTime) / moveIntoPlaceDuration;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(pauseDuration);
+
+        // Charge
+        
+        var charge = 0f;
+        var startChargeTime = Time.time;
+        var originalNPCScale = catapultingNPC.localScale;
+        while (charge <= 1f)
+        {
+            catapultingNPC.localScale = Vector3.Scale(originalNPCScale, new Vector3(1, 1 - (charge / 2), 1));
+            velocity = MovePlayerInPosition(bottomPlayerJoint, velocity, gettingInPosition);
+            charge = (Time.time - startChargeTime) / chargingDuration;
+            SpringController.Instance.Charge();
+            yield return null;
+        }
+        
+        yield return new WaitForSeconds(pauseDuration);
+
+        // Jump
+
+        catapultingNPC.localScale = originalNPCScale;
+        
+        bottomPlayerJoint.GetComponent<Rigidbody2D>().isKinematic = false;
+        SpringController.Instance._jumpCharge = 0;
+        
+        var topPlayerJoint = SpringController.Instance.GetTopSegment();
+        topPlayerJoint.GetComponent<Rigidbody2D>().isKinematic = true;
+        var startingPosition = topPlayerJoint.transform.position;
+        var targetPosition = startingPosition +
+                             new Vector3(startingPosition.x, startingPosition.y + superjumpHeight, startingPosition.z);
+        var jumpStartTime = Time.time;
+        float jumpProgress = 0f;
+        sceneTransitionAnimator.SetTrigger("unloadScene");
+        while (jumpProgress <= 1f)
+        {
+            topPlayerJoint.transform.position = Vector3.Lerp(startingPosition, targetPosition, jumpProgress);
+            jumpProgress = (Time.time - jumpStartTime) / superjumpDuration;
+            yield return null;
+        }
+
+    }
+
+    private Vector3 MovePlayerInPosition(GameObject bottomPlayerJoint, Vector3 velocity, float gettingInPosition)
+    {
+        bottomPlayerJoint.transform.position = Vector3.SmoothDamp(bottomPlayerJoint.transform.position,
+            jumpingOffPosition.position, ref velocity,
+            (1 - gettingInPosition) * moveIntoPlaceDuration);
+        return velocity;
+    }
+}
