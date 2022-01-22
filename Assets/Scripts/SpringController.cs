@@ -77,8 +77,7 @@ public class SpringController : MonoBehaviour
     public StudioEventEmitter startWalkSound;
     public  StudioEventEmitter stopWalkSound;
 
-
-
+    private bool _canMove = true;
     private Segment[] _segments;
     private float _jumpCharge = 0;
     private float _lastTimeMoved = 0;
@@ -89,6 +88,29 @@ public class SpringController : MonoBehaviour
     private float _lastFloorCollisionTime;
 
     private LineRenderer _lineRenderer;
+    
+    
+    #region public Getters
+
+    public GameObject GetFaceSegment()
+    {
+        try
+        {
+            return _segments[segmentCount - 1].GameObject;
+        }
+        catch (NullReferenceException e)
+        {
+            Console.WriteLine(e);
+            return null;
+        }
+    }
+
+    #endregion
+
+    public void SetCanMove(bool canMove)
+    {
+        _canMove = canMove;
+    }
     
     #region Initialisierung
 
@@ -189,7 +211,10 @@ public class SpringController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Movement();
+        if (_canMove)
+        {
+            Movement();
+        }
         UpdateLineRenderer();
     }
     
@@ -389,20 +414,4 @@ public class SpringController : MonoBehaviour
         }
     }
 
-    #region public Getters
-
-    public GameObject GetFaceSegment()
-    {
-        try
-        {
-            return _segments[segmentCount - 1].GameObject;
-        }
-        catch (NullReferenceException e)
-        {
-            Console.WriteLine(e);
-            return null;
-        }
-    }
-
-    #endregion
 }
