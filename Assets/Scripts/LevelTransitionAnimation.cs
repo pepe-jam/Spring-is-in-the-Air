@@ -1,10 +1,13 @@
 using System.Collections;
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class LevelTransitionAnimation : MonoBehaviour
 {
     public UnityEvent transitionCompleted;
+    
+    [Header("Animation Parameters")]
     public Transform catapultingNPC;
     public Transform jumpingOffPosition;    // should be a child of catapultingNPC
     public Animator sceneTransitionAnimator;
@@ -16,6 +19,10 @@ public class LevelTransitionAnimation : MonoBehaviour
     public float superjumpDuration = 1;
     public float pauseDuration = 1;
 
+    [Header("Audio")] 
+    public StudioEventEmitter LevelCompletedSFX;
+    public StudioEventEmitter chargingSFX;
+    
     public void StartAnimation()
     {
         StartCoroutine(nameof(PlayAnimation));
@@ -42,7 +49,7 @@ public class LevelTransitionAnimation : MonoBehaviour
         yield return new WaitForSeconds(pauseDuration);
 
         // Charge
-        
+        chargingSFX.Play();
         var charge = 0f;
         var startChargeTime = Time.time;
         var originalNPCScale = catapultingNPC.localScale;
@@ -58,7 +65,7 @@ public class LevelTransitionAnimation : MonoBehaviour
         yield return new WaitForSeconds(pauseDuration);
 
         // Jump
-
+        LevelCompletedSFX.Play();
         catapultingNPC.localScale = originalNPCScale;
         
         bottomPlayerJoint.GetComponent<Rigidbody2D>().isKinematic = false;
@@ -78,7 +85,7 @@ public class LevelTransitionAnimation : MonoBehaviour
             jumpProgress = (Time.time - jumpStartTime) / superjumpDuration;
             yield return null;
         }
-
+        transitionCompleted.Invoke();
     }
 
     private Vector3 MovePlayerInPosition(GameObject bottomPlayerJoint, Vector3 velocity, float gettingInPosition)

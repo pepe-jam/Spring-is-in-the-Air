@@ -197,7 +197,7 @@ Transform:
   - {fileID: 1121841469}
   - {fileID: 1381379881}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &289575019
 GameObject:
@@ -842,6 +842,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collisionSoundEvents: {fileID: 11400000, guid: f3a5d4e149f0c534c89575c239d6622f, type: 2}
+  hasOwnCollisionSound: 0
+  ownCollisionSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   ignoredPhysicsMaterials: []
 --- !u!50 &538188035
 Rigidbody2D:
@@ -73961,6 +73969,8 @@ GameObject:
   - component: {fileID: 1225602050}
   - component: {fileID: 1225602051}
   - component: {fileID: 1225602052}
+  - component: {fileID: 1225602054}
+  - component: {fileID: 1225602053}
   m_Layer: 0
   m_Name: Goal
   m_TagString: Untagged
@@ -74077,6 +74087,8 @@ MonoBehaviour:
   superjumpHeight: 20
   superjumpDuration: 1
   pauseDuration: 1
+  LevelCompletedSFX: {fileID: 1225602054}
+  chargingSFX: {fileID: 1225602053}
 --- !u!114 &1225602052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74089,6 +74101,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 909abf26970acaf46959b96c2449bb27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1225602053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225602047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -501367590
+      Data2: 1094892802
+      Data3: 1081717646
+      Data4: -1033242839
+    Path: event:/Walk Creak 1
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &1225602054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225602047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 834271739
+      Data2: 1106356017
+      Data3: -164195966
+      Data4: 583038285
+    Path: event:/Superjump - advance level
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1264284034
 GameObject:
   m_ObjectHideFlags: 0
@@ -76372,6 +76444,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2586483487980866608, guid: 5f37af88da394c64b85181b881427039, type: 3}
+      propertyPath: ownCollisionSound.Path
+      value: event:/Collisions/collide_spring
+      objectReference: {fileID: 0}
+    - target: {fileID: 2586483487980866608, guid: 5f37af88da394c64b85181b881427039, type: 3}
+      propertyPath: ownCollisionSound.Guid.Data1
+      value: -192539946
+      objectReference: {fileID: 0}
+    - target: {fileID: 2586483487980866608, guid: 5f37af88da394c64b85181b881427039, type: 3}
+      propertyPath: ownCollisionSound.Guid.Data2
+      value: 1235987004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2586483487980866608, guid: 5f37af88da394c64b85181b881427039, type: 3}
+      propertyPath: ownCollisionSound.Guid.Data3
+      value: -1791851869
+      objectReference: {fileID: 0}
+    - target: {fileID: 2586483487980866608, guid: 5f37af88da394c64b85181b881427039, type: 3}
+      propertyPath: ownCollisionSound.Guid.Data4
+      value: -1538852294
+      objectReference: {fileID: 0}
     - target: {fileID: 2586483487980866609, guid: 5f37af88da394c64b85181b881427039, type: 3}
       propertyPath: m_Name
       value: PlayerCharacter
@@ -76390,7 +76482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2586483487980866611, guid: 5f37af88da394c64b85181b881427039, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.03
+      value: -2.95
       objectReference: {fileID: 0}
     - target: {fileID: 2586483487980866611, guid: 5f37af88da394c64b85181b881427039, type: 3}
       propertyPath: m_LocalPosition.z
@@ -77243,7 +77335,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1970490260
 PrefabInstance:
@@ -78208,7 +78300,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5851467611082193351, guid: 67db3de429887d34e927e8d6867491a9, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5851467611082193351, guid: 67db3de429887d34e927e8d6867491a9, type: 3}
       propertyPath: m_AnchorMax.x

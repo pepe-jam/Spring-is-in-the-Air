@@ -75,6 +75,7 @@ public class SpringController : MonoBehaviour
 
     [Header("Audio")] 
     [SerializeField] private CollisionSoundEvents collisionSoundEvents;
+    [SerializeField] private EventReference ownCollisionSound;
     [SerializeField] private StudioEventEmitter jumpSound;
     [SerializeField] private StudioEventEmitter startWalkSound;
     [SerializeField] private  StudioEventEmitter stopWalkSound;
@@ -182,6 +183,8 @@ public class SpringController : MonoBehaviour
         _segments[index].GameObject.GetComponent<Collider2D>().sharedMaterial = physicsMaterial2D;
         _segments[index].CollisionAudioPlayer = _segments[index].GameObject.GetComponent<CollisionAudioPlayer>();
         _segments[index].CollisionAudioPlayer.collisionSoundEvents = collisionSoundEvents;
+        _segments[index].CollisionAudioPlayer.hasOwnCollisionSound = true;
+        _segments[index].CollisionAudioPlayer.ownCollisionSound = ownCollisionSound;
         _segments[index].CollisionAudioPlayer.ignoredPhysicsMaterials = new[] { physicsMaterial2D };
         if (index == 0)
         {
