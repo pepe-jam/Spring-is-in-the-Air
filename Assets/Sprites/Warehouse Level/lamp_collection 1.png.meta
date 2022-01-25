@@ -1,25 +1,19 @@
 fileFormatVersion: 2
-guid: 545f4aa661602ab4abcb95dec17653c0
+guid: 851f48a34095c6c47ab4489396351dfd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5998890766362835358
-    second: lamp_collection_back 1_0
+      213: -1602969302596025543
+    second: lamp_collection 1_0
   - first:
-      213: 7055915769491049771
-    second: lamp_collection_back 1_1
+      213: 7904623841572588084
+    second: lamp_collection 1_1
   - first:
-      213: 465412848307754589
-    second: lamp_collection_back 1_2
+      213: 7236255394164026678
+    second: lamp_collection 1_2
   - first:
-      213: 9041783729276376809
-    second: lamp_collection_back 1_3
-  - first:
-      213: -972619904275468140
-    second: lamp_collection_back 1_4
-  - first:
-      213: 426872338386257690
-    second: lamp_collection_back 1_5
+      213: -8875278409700384478
+    second: lamp_collection 1_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -109,7 +103,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lamp_collection_back 1_0
+      name: lamp_collection 1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -117,20 +111,20 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2668298a1a8afbca0800000000000000
-      internalID: -5998890766362835358
+      spriteID: 93388e489eb11c9e0800000000000000
+      internalID: -1602969302596025543
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: lamp_collection_back 1_2
+      name: lamp_collection 1_1
       rect:
         serializedVersion: 2
         x: 1024
@@ -138,20 +132,20 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d565949058a757600800000000000000
-      internalID: 465412848307754589
+      spriteID: 43a8400e08dd2bd60800000000000000
+      internalID: 7904623841572588084
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: lamp_collection_back 1_3
+      name: lamp_collection 1_2
       rect:
         serializedVersion: 2
         x: 0
@@ -159,20 +153,20 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9e6dc67756eda7d70800000000000000
-      internalID: 9041783729276376809
+      spriteID: 63da62111f75c6460800000000000000
+      internalID: 7236255394164026678
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: lamp_collection_back 1_5
+      name: lamp_collection 1_3
       rect:
         serializedVersion: 2
         x: 1024
@@ -180,14 +174,14 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a1704fd412e8ce500800000000000000
-      internalID: 426872338386257690
+      spriteID: 2216d134f4da4d480800000000000000
+      internalID: -8875278409700384478
       vertices: []
       indices: 
       edges: []
