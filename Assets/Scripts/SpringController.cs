@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Transactions;
 using FMODUnity;
 using ScriptableObjects;
 using UnityEngine;
@@ -8,78 +9,80 @@ using UnityEngine.Video;
 
 public class SpringController : MonoBehaviour
 {
+    public static SpringController Instance;
     [Header("Appearance")]
-    public int segmentCount;
-    public float height;
-    public float segmentScale;
-    //public Mesh segmentMesh;
-    //public Material segmentMaterial;
-    public Sprite face;
+    [SerializeField] private int segmentCount;
+    [SerializeField] private float height;
+    [SerializeField] private float segmentScale;
+    //[SerializeField] private Mesh segmentMesh;
+    //[SerializeField] private Material segmentMaterial;
+    [SerializeField] private Sprite face;
     [Tooltip("Size of the face's segment and therefore the face itself")]
-    public float faceScale;
-    public Material jointMaterial;
-    public float jointWidth;
+    [SerializeField] private float faceScale;
+    [SerializeField] private Material jointMaterial;
+    [SerializeField] private float jointWidth;
 
     [Header("Physical Properties")]
-    public float linearDrag;
-    public float angularDrag;
-    public float dampening; // dampening ratio for spring joints
-    public float bottomJointMass;
-    public float bottomJointGravityScale;
-    public float balancingJointMass;
-    public float balancingJointGravityScale;
-    public float oscillatingFrequency;
-    public PhysicsMaterial2D physicsMaterial2D;
+    [SerializeField] private float linearDrag;
+    [SerializeField] private float angularDrag;
+    [SerializeField] private float dampening; // dampening ratio for spring joints
+    [SerializeField] private float bottomJointMass;
+    [SerializeField] private float bottomJointGravityScale;
+    [SerializeField] private float balancingJointMass;
+    [SerializeField] private float balancingJointGravityScale;
+    [SerializeField] private float oscillatingFrequency;
+    [SerializeField] private PhysicsMaterial2D physicsMaterial2D;
 
     
     [Header("Jumping")]
-    public float jumpForceUp;
-    public float jumpForceSideways;
-    public float jumpChargeTime;
-    public float linearDragWhileCharging;
-    public float dampeningWhileCharging; // dampening ratio for spring joints
-    public float chargingContraction;
+    [SerializeField] private float jumpForceUp;
+    [SerializeField] private float jumpForceSideways;
+    [SerializeField] private float jumpChargeTime;
+    [SerializeField] private float linearDragWhileCharging;
+    [SerializeField] private float dampeningWhileCharging; // dampening ratio for spring joints
+    [SerializeField] private float chargingContraction;
     [Tooltip("Controls for how many seconds after a jump the GroundCheck always fails to prevent weird things from happening.")]
-    public float groundCheckSkipDuration;
+    [SerializeField] private float groundCheckSkipDuration;
     [Tooltip("How far the player leans into the direction they are aiming towards")]
-    public float tiltStrength;
+    [SerializeField] private float tiltStrength;
     
 
     [Header("Walking (Left-Right-Movement)")]
     [Tooltip("How long it takes for a single move cycle to complete")]
-    public float moveDuration;
+    [SerializeField] private float moveDuration;
 
     [Tooltip("The time the player waits between two move cycles. Must be a positive number.")]
-    public float moveDelay;
-    //public float moveForceSideways;
+    [SerializeField] private float moveDelay;
+    //[SerializeField] private float moveForceSideways;
     [Tooltip("How far the player will move relative to their height")]
-    public float moveDistance;
-    public float moveAnimationSpeed;
+    [SerializeField] private float moveDistance;
+    [SerializeField] private float moveAnimationSpeed;
     [Tooltip("0 means the player will bash their head into the ground when walking, 1 means they will merely lean over before falling over")]
     [Range(0f, 1f)]
-    public float walkingHeight;
+    [SerializeField] private float walkingHeight;
     
     
    
     [Header("Ground Check")]
-    public LayerMask groundLayers;
+    [SerializeField] private LayerMask groundLayers;
     [Tooltip("How long the player has to 'lay' on the ground before they are considered grounded and able to jump (in seconds)")]
-    public float groundCheckDuration;
+    [SerializeField] private float groundCheckDuration;
     
     [Header("Rescue Spasm for when the groundcheck fails and the player gets stuck")]
-    public float rescueSpasmDelay;
-    public float rescueSpasmIntensity;
-    public float rescueSpasmDuration;
+    [SerializeField] private float rescueSpasmDelay;
+    [SerializeField] private float rescueSpasmIntensity;
+    [SerializeField] private float rescueSpasmDuration;
 
     [Header("Audio")] 
-    public CollisionSoundEvents collisionSoundEvents;
-    public StudioEventEmitter jumpSound;
-    public StudioEventEmitter startWalkSound;
-    public  StudioEventEmitter stopWalkSound;
+    [SerializeField] private CollisionSoundEvents collisionSoundEvents;
+    [SerializeField] private EventReference ownCollisionSound;
+    [SerializeField] private StudioEventEmitter jumpSound;
+    [SerializeField] private StudioEventEmitter startWalkSound;
+    [SerializeField] private  StudioEventEmitter stopWalkSound;
 
-    private bool _canMove = true;
+    public bool _inDialogue { set; private get; } = false;
     private Segment[] _segments;
-    private float _jumpCharge = 0;
+    public float _jumpCharge { set; private get; } = 0;
     private float _lastTimeMoved = 0;
     private float _lastTimeJumped = 0;
     private float _secondsGrounded = 0;
@@ -94,29 +97,44 @@ public class SpringController : MonoBehaviour
 
     public GameObject GetFaceSegment()
     {
+        return getSegment(Mathf.RoundToInt((segmentCount - 1) / 2f));
+    }
+
+    public GameObject GetBottomSegment()
+    {
+        return getSegment(_bottomJointIndex);
+    }
+
+    public GameObject GetTopSegment()
+    {
+        return getSegment(_topJointIndex);
+    }
+
+    private GameObject getSegment(int index)
+    {
         try
         {
-            return _segments[segmentCount - 1].GameObject;
+            return _segments[index].GameObject;
         }
         catch (NullReferenceException e)
         {
-            Console.WriteLine(e);
-            return null;
+            throw new NotInitializedException();
         }
     }
 
     #endregion
 
-    public void SetCanMove(bool canMove)
-    {
-        _canMove = canMove;
-    }
-    
     #region Initialisierung
 
     // Start is called before the first frame update
     void Start()
     {
+        if (SpringController.Instance)
+        {
+            return;
+        }
+
+        SpringController.Instance = this;
         _segments = new Segment[segmentCount];   // initialize the array containing all joints the character has
         // create the joints of the character
         for (int index = 0; index < segmentCount; index++)
@@ -132,6 +150,11 @@ public class SpringController : MonoBehaviour
         _lineRenderer.widthMultiplier = jointWidth;
         _lineRenderer.textureMode = LineTextureMode.Tile;
         
+    }
+
+    private void OnDestroy()
+    {
+        SpringController.Instance = null;
     }
 
     private class Segment
@@ -160,6 +183,8 @@ public class SpringController : MonoBehaviour
         _segments[index].GameObject.GetComponent<Collider2D>().sharedMaterial = physicsMaterial2D;
         _segments[index].CollisionAudioPlayer = _segments[index].GameObject.GetComponent<CollisionAudioPlayer>();
         _segments[index].CollisionAudioPlayer.collisionSoundEvents = collisionSoundEvents;
+        _segments[index].CollisionAudioPlayer.hasOwnCollisionSound = true;
+        _segments[index].CollisionAudioPlayer.ownCollisionSound = ownCollisionSound;
         _segments[index].CollisionAudioPlayer.ignoredPhysicsMaterials = new[] { physicsMaterial2D };
         if (index == 0)
         {
@@ -179,7 +204,7 @@ public class SpringController : MonoBehaviour
             SetBalancingJoint(index);
         }
         _segments[index].GameObject.transform.parent = gameObject.transform;   // macht das aktuelle gameObject zum Elternteil der neu erstellten SpringJoints
-        if (index == Mathf.Round((segmentCount-1)/2f))
+        if (index == Mathf.RoundToInt((segmentCount-1)/2f))
         {
             var faceRenderer = _segments[index].GameObject.AddComponent<SpriteRenderer>();
             faceRenderer.sprite = face;
@@ -211,7 +236,7 @@ public class SpringController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_canMove)
+        if (!_inDialogue)
         {
             Movement();
         }
@@ -233,19 +258,7 @@ public class SpringController : MonoBehaviour
                 // makes the spring tilt into the direction of the jump
                 _segments[_topJointIndex].Rigidbody2D
                     .AddForce(Vector2.right * (Input.GetAxis("Horizontal") * tiltStrength));
-                _jumpCharge =
-                    Mathf.Min(_jumpCharge + Time.deltaTime * jumpChargeTime,
-                        1); // gradually charge a jump while the jump button is held down
-                _segments[0].Rigidbody2D.drag = linearDragWhileCharging;
-                // makes the spring visibly charge by contracting its joints
-                for (int index = 1; index < segmentCount; index++)
-                {
-                    _segments[index].SpringJoint2D.distance = Mathf.Lerp(height / segmentCount,
-                        (height * chargingContraction) / segmentCount, _jumpCharge);
-                    _segments[index].SpringJoint2D.dampingRatio = dampeningWhileCharging;
-                    _segments[index].Rigidbody2D.drag = linearDragWhileCharging;
-                }
-                jointMaterial.mainTextureScale = new Vector2(Mathf.Lerp(1, 1/chargingContraction, _jumpCharge) / jointWidth, 1);
+                Charge();
             }
             else
             {
@@ -275,6 +288,24 @@ public class SpringController : MonoBehaviour
                 RescueSpasm();
             }
         }
+    }
+
+    public void Charge()
+    {
+        _jumpCharge =
+            Mathf.Min(_jumpCharge + Time.deltaTime * jumpChargeTime,
+                1); // gradually charge a jump while the jump button is held down
+        _segments[0].Rigidbody2D.drag = linearDragWhileCharging;
+        // makes the spring visibly charge by contracting its joints
+        for (int index = 1; index < segmentCount; index++)
+        {
+            _segments[index].SpringJoint2D.distance = Mathf.Lerp(height / segmentCount,
+                (height * chargingContraction) / segmentCount, _jumpCharge);
+            _segments[index].SpringJoint2D.dampingRatio = dampeningWhileCharging;
+            _segments[index].Rigidbody2D.drag = linearDragWhileCharging;
+        }
+
+        jointMaterial.mainTextureScale = new Vector2(Mathf.Lerp(1, 1 / chargingContraction, _jumpCharge) / jointWidth, 1);
     }
 
 
@@ -411,6 +442,14 @@ public class SpringController : MonoBehaviour
         for (int index = 0; index < _segments.Length; index++)
         {
             _lineRenderer.SetPosition(index, _segments[index].GameObject.transform.position);
+        }
+    }
+
+    public class NotInitializedException : Exception
+    {
+        public NotInitializedException() : base("The Player Object has not been created yet. Try decreasing the script execution order of SpringController")
+        {
+            
         }
     }
 

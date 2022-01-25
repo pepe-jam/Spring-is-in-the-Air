@@ -6,8 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(CanvasGroup))]
 public class FadeCanvasGroupOpacityOverDistance : MonoBehaviour
 {
-    public SpringController playerSpringController;
-
     public AnimationCurve visibilityOverDistance;
 
     public float fadeDistance = 10;
@@ -41,17 +39,18 @@ public class FadeCanvasGroupOpacityOverDistance : MonoBehaviour
     
     private IEnumerator GetPlayerTransformWhenCreated()
     {
-        bool playerInstantiated = false;   // Player Character cannot be found if it hasn't been created yet
-        while (!playerInstantiated)
+        while (!SpringController.Instance)
         {
-            var playerHead = playerSpringController.GetFaceSegment();
-            if (playerHead)
-            {
-                _playerTransform = playerHead.transform;
-                playerInstantiated = true;
-            }
+            // wait for the player to finish creating itself
             yield return null;
         }
+        var playerHead = SpringController.Instance.GetFaceSegment();
+        if (playerHead)
+        {
+            _playerTransform = playerHead.transform;
+        }
+        yield return null;
+    
         StartCoroutine(nameof(FadeOpacityByPlayerDistance));
     }
 }
