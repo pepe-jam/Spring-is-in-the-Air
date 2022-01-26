@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PickUpSystem : MonoBehaviour
 {
-    public bool pickedCrownSplitter = false;
+    public bool hasCrownShard { get; private set; } = false;
     // Update is called once per frame
 
     public void pickCrownSplitter()
     {
-        pickedCrownSplitter = true;
+        hasCrownShard = true;
     }
 }

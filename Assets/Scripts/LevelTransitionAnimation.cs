@@ -85,6 +85,8 @@ public class LevelTransitionAnimation : MonoBehaviour
             jumpProgress = (Time.time - jumpStartTime) / superjumpDuration;
             yield return null;
         }
+        PlayerPrefs.DeleteKey("position_x");
+        PlayerPrefs.DeleteKey("position_y");
         transitionCompleted.Invoke();
     }
 
