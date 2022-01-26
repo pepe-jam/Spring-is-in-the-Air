@@ -11,6 +11,7 @@ namespace Helper
     public enum SceneNames
     {
         Introduction,
+        MainMenu,
         SewerLevel,
         WarehouseLevel
     }

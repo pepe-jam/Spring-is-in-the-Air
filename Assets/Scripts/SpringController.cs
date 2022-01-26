@@ -133,8 +133,12 @@ public class SpringController : MonoBehaviour
         {
             return;
         }
-
         SpringController.Instance = this;
+        if (PlayerPrefs.HasKey("position_x") && PlayerPrefs.HasKey("position_y"))
+        {
+            gameObject.transform.position = new Vector3(PlayerPrefs.GetFloat("position_x"),
+                PlayerPrefs.GetFloat("position_y"), gameObject.transform.position.z);
+        }
         _segments = new Segment[segmentCount];   // initialize the array containing all joints the character has
         // create the joints of the character
         for (int index = 0; index < segmentCount; index++)
@@ -236,7 +240,7 @@ public class SpringController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!_inDialogue)
+        if (!_inDialogue && (!PauseMenu.Instance || !PauseMenu.Instance.Open))
         {
             Movement();
         }

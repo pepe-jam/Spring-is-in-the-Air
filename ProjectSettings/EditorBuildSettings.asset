@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Introduction.unity
     guid: 146f1da1b4d70924ea3c591203990e27
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: d638e88d477cd5a4e9761a7972402304
+  - enabled: 1
     path: Assets/Scenes/SewerLevel.unity
     guid: 7d3636a49fc3f1048a47daba09e7bfdc
   - enabled: 1
