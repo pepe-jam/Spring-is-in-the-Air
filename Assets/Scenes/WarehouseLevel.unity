@@ -136,8 +136,9 @@ GameObject:
   - component: {fileID: 41162246}
   - component: {fileID: 41162245}
   - component: {fileID: 41162244}
+  - component: {fileID: 41162249}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: MainCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -268,12 +269,26 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 41162243}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.543806, y: 10.3531685, z: -5.6623697}
+  m_LocalPosition: {x: 8.543806, y: 10.3531685, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &41162249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41162243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
+  ListenerNumber: -1
 --- !u!1 &92448090
 GameObject:
   m_ObjectHideFlags: 0
@@ -4946,7 +4961,7 @@ TilemapCollider2D:
   m_GameObject: {fileID: 349628055}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 2c0da8b1f91b6b142a488d3fa83767a4, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -5235,7 +5250,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 170133163208387008, guid: e0b4497d47a946a478f07cfaf0d2b675, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.6623697
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 170133163208387008, guid: e0b4497d47a946a478f07cfaf0d2b675, type: 3}
       propertyPath: m_LocalRotation.w
@@ -18247,7 +18262,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2081310570}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.250828, y: 14.444495, z: -24.310297}
+  m_LocalPosition: {x: 12.250828, y: 14.444495, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 871182411}
