@@ -1,38 +1,39 @@
 ﻿title: Level1done
 tags:
 ---
-Treuer Untertarn: King Spring, da seid Ihr ja! 
-Treuer Untertarn: Ich habe oben im Dorf bereits nach euch gesucht, aber weiter in die Kanalisation hinabzusteigen habe ich mich nicht getraut.
-Treuer Untertarn: Nach Eurer "Abreise" ist im Palast Chaos ausgebrochen!
-Treuer Untertarn: Euer Rivale Lord Mortimer hat sich mit einer falschen Krone euren Thron zu Eigen gemacht und terrorisiert nun das gesamte Volk!
-Treuer Untertarn: Ihr müsst alle Teile eurer Krone finden und dieser Tyrannei schleunigst ein Ende bereiten
+Treuer Untertan: King Spring, da seid Ihr ja! 
+Treuer Untertan: Ich habe oben im Dorf bereits nach euch gesucht, aber weiter in die Kanalisation hinabzusteigen habe ich mich nicht getraut.
+Treuer Untertan: Nach Eurer "Abreise" ist im Palast Chaos ausgebrochen!
+Treuer Untertan: Euer Rivale Lord Mortimer hat sich mit einer falschen Krone euren Thron zu Eigen gemacht und terrorisiert nun das gesamte Volk!
+Treuer Untertan: Ihr müsst alle Teile eurer Krone finden und dieser Tyrannei schleunigst ein Ende bereiten
 ===
 title: Level1MissingCrownShard
 tags:
 ---
-Treuer Untertarn: Ach, da seid Ihr ja! 
-Treuer Untertarn: Ein Wunder, dass es Euch nach dem Sturz noch gut geht, aber Eure Krone scheint es nicht so gut erwischt zu haben.  
+Treuer Untertan: Ach, da seid Ihr ja! 
+Treuer Untertan: Ein Wunder, dass es Euch nach dem Sturz noch gut geht, aber Eure Krone scheint es nicht so gut erwischt zu haben.  
 ===
 title: Level1CrownShardZoom
 tags:
 ---
-Treuer Untertarn: Die Kronenfragmente solltet Ihr besser sammeln und wieder zusammensetzen, bevor Ihr euren Weg zum Palast fortsetzt.
+Treuer Untertan: Die Kronenfragmente solltet Ihr besser sammeln und wieder zusammensetzen, bevor Ihr euren Weg zum Palast fortsetzt.
 ===
 title: Level2done
 tags:
 ---
-Postbeamter: Huch, was macht ihr denn hier?
+Postbeamter: King Spring! Was hat euch eigentlich hierher verschlagen?
 Postbeamter: Ich habe gesehen, wie ihr damals verschwunden seid. Ich hätte nie gedacht, dass ich Euch noch einmal wiedersehen würde.
 Postbeamter: In den letzten Wochen ist das meiste den Bach runtergegangen. Auch hier bin ich der letzte Mitarbeiter, alle anderen sind schon gegangen.
-Postbeamter: Wie ich sehe, habt Ihr schon Teile Eurer Krone gefunden. Heißt das Ihr wollt euren Thron wieder besteigen? 
+Postbeamter: Wie ich sehe, habt Ihr die Teile Eurer Krone gefunden. Heißt das, Ihr wollt euren Thron wieder besteigen? 
 Postbeamter: Wenn Ihr in euren Thronraum wollt, könnt ihr mich als euer persönliches Zustellungskatapult hier benutzen. Normalerweise mache ich das mit Paketen, aber ich denke für Euch wird es auch funktionieren.
 Postbeamter: Damit kommt ihr hoffentlich direkt in eurer Schloss! Ich wünsche euch viel Erfolg!
 ===
 title: Level2MissingCrownShard
 ---
-Postbeamter: Sample Text (Krone nicht gefunden)
+Postbeamter: Na, na, ohne eine vollständige Krone wird es aber schwierig werden, euch als der echte König zu beweisen. 
+Postbeamter: Ich habe gehört Mortimer hat eine falsche Krone, doch die ist wohl immer noch glaubhafter als gar keine!
 ===
 title: Level2CrownShardZoom
 ---
-Postbeamter: Sample Text (Zoom auf die Krone)
+Postbeamter: Dort unten habe ich ein Stück gesehen. Muss wohl in einem der Pakete hierhergekommen sein.
 ===
