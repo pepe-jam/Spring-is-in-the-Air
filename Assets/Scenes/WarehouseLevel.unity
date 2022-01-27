@@ -4977,7 +4977,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5851467611082193369, guid: 67db3de429887d34e927e8d6867491a9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67db3de429887d34e927e8d6867491a9, type: 3}
@@ -5720,7 +5720,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: EndingScene
+          m_StringArgument: The End
           m_BoolArgument: 0
         m_CallState: 2
   catapultingNPC: {fileID: 1359067142}
