@@ -32,7 +32,7 @@ public class Level1Goal : MonoBehaviour
             trigger.enabled = false;
 
             
-            if (other.GetComponentInParent<PickUpSystem>().hasCrownShard)
+            if (PlayerPrefs.HasKey("crownshard_collected"))
             {
                 levelCompletedDialogue.Invoke();
             }
@@ -52,7 +52,7 @@ public class Level1Goal : MonoBehaviour
     {
         trigger.enabled = false;
         yield return new WaitForSeconds(0.1f);  // yarn can't start a new dialogue immediately after the currently running one has finished, so we'll have to wait a little 
-        if (SpringController.Instance.gameObject.GetComponentInParent<PickUpSystem>().hasCrownShard)
+         if (PlayerPrefs.HasKey("crownshard_collected"))
         {
             trigger.enabled = false;
             levelTransitionAnimation.StartAnimation();

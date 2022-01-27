@@ -87,6 +87,7 @@ public class LevelTransitionAnimation : MonoBehaviour
         }
         PlayerPrefs.DeleteKey("position_x");
         PlayerPrefs.DeleteKey("position_y");
+        PlayerPrefs.DeleteKey("crownshard_collected");
         transitionCompleted.Invoke();
     }
 

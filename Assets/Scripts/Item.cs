@@ -7,11 +7,18 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    public enum InteractionType {None, PickUp};
-    public InteractionType type;
-    public bool clockwise = false;
-    public bool bigger = true;
-    
+    private enum InteractionType {None, PickUp};
+    [SerializeField] private InteractionType type;
+    [SerializeField] private bool clockwise = false;
+    [SerializeField] private bool bigger = true;
+
+    private void Start()
+    {
+        if (PlayerPrefs.HasKey("crownshard_collected"))
+        {
+            gameObject.SetActive(false);
+        }
+    }
 
     private void Update()
     {
@@ -27,7 +34,7 @@ public class Item : MonoBehaviour
             {
                 case InteractionType.PickUp:
                     gameObject.SetActive(false);
-                    collider.GetComponentInParent<PickUpSystem>().pickCrownSplitter();
+                    PlayerPrefs.SetString("crownshard_collected", "true");
                     break;
             }
         }
