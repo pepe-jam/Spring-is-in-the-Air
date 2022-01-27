@@ -1,19 +1,7 @@
 fileFormatVersion: 2
-guid: 68f46c593e7cf854c83a661d12ee7b77
+guid: a73123d853608f74bacaaab568e7d245
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: 1439752978871573265
-    second: lamp_collection_front 1_0
-  - first:
-      213: 7086912096699923921
-    second: lamp_collection_front 1_1
-  - first:
-      213: -7068936399421127749
-    second: lamp_collection_front 1_2
-  - first:
-      213: -5287360544372425854
-    second: lamp_collection_front 1_3
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -53,12 +41,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 512
+  spritePixelsToUnits: 384
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -101,84 +89,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: lamp_collection_front 1_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 512
-        height: 512
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape:
-      - - {x: -254, y: -99}
-        - {x: -210, y: -161}
-        - {x: 256, y: -161}
-        - {x: 256, y: -80}
-        - {x: -254, y: -80}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1ddb73ef005c95260800000000000000
-      internalID: 7086912096699923921
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: lamp_collection_front 1_2
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 512
-        height: 512
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape:
-      - - {x: -256, y: -161}
-        - {x: 256, y: -161}
-        - {x: 256, y: -81}
-        - {x: -256, y: -80}
-      tessellationDetail: 0
-      bones: []
-      spriteID: bb3ccac2cc716ed90800000000000000
-      internalID: -7068936399421127749
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: lamp_collection_front 1_3
-      rect:
-        serializedVersion: 2
-        x: 1024
-        y: 0
-        width: 512
-        height: 512
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape:
-      - - {x: -256, y: -80}
-        - {x: -256, y: -161}
-        - {x: 253, y: -161}
-        - {x: 253, y: -141}
-        - {x: 209, y: -80}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 28bf34939958f96b0800000000000000
-      internalID: -5287360544372425854
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
