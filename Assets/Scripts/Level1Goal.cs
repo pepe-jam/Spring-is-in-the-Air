@@ -12,7 +12,7 @@ public class Level1Goal : MonoBehaviour
     [SerializeField] private UnityEvent zoomOnCrownShard;
     [SerializeField] private UnityEvent afterZoomOnCrownShard;
 
-    public float dialogueCooldown = 5;
+    private readonly float DialogueCooldown = 7;
 
     private LevelTransitionAnimation levelTransitionAnimation;
     private Collider2D trigger;
@@ -67,14 +67,14 @@ public class Level1Goal : MonoBehaviour
                 case 1: 
                     afterZoomOnCrownShard.Invoke();
                     SpringController.Instance._inDialogue = false;
-                    yield return new WaitForSeconds(dialogueCooldown);
+                    yield return new WaitForSeconds(DialogueCooldown);
                     progress = -1;
                     trigger.enabled = true;
                     break;
                 default:
                     progress = -1;
                     SpringController.Instance._inDialogue = false;
-                    yield return new WaitForSeconds(dialogueCooldown);
+                    yield return new WaitForSeconds(DialogueCooldown);
                     trigger.enabled = true;
                     break;
             }
