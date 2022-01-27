@@ -27,6 +27,7 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.DeleteKey("level");
         PlayerPrefs.DeleteKey("position_x");
         PlayerPrefs.DeleteKey("position_y");
+        PlayerPrefs.DeleteKey("crownshard_collected");
         SceneManager.LoadScene(SceneNames.SewerLevel.ToString());
     }
 }
