@@ -5,23 +5,23 @@ using UnityEngine.Events;
 
 public class LevelTransitionAnimation : MonoBehaviour
 {
-    public UnityEvent transitionCompleted;
+    [SerializeField] private UnityEvent transitionCompleted;
     
     [Header("Animation Parameters")]
-    public Transform catapultingNPC;
-    public Transform jumpingOffPosition;    // should be a child of catapultingNPC
-    public Animator sceneTransitionAnimator;
+    [SerializeField] private Transform catapultingNPC;
+    [SerializeField] private Transform jumpingOffPosition;    // should be a child of catapultingNPC
+    [SerializeField] private Animator sceneTransitionAnimator;
 
     // all time-based parameters are in seconds
-    public float moveIntoPlaceDuration = 1;
-    public float chargingDuration = 1;
-    public float superjumpHeight = 20;
-    public float superjumpDuration = 1;
-    public float pauseDuration = 1;
+    [SerializeField] private float moveIntoPlaceDuration = 1;
+    [SerializeField] private float chargingDuration = 1;
+    [SerializeField] private float superjumpHeight = 20;
+    [SerializeField] private float superjumpDuration = 1;
+    [SerializeField] private float pauseDuration = 1;
 
     [Header("Audio")] 
-    public StudioEventEmitter LevelCompletedSFX;
-    public StudioEventEmitter chargingSFX;
+    [SerializeField] private StudioEventEmitter LevelCompletedSFX;
+    [SerializeField] private StudioEventEmitter chargingSFX;
     
     public void StartAnimation()
     {
