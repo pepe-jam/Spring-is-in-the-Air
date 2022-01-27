@@ -16,7 +16,7 @@ Treuer Untertarn: Ein Wunder, dass es Euch nach dem Sturz noch gut geht, aber Eu
 title: Level1CrownShardZoom
 tags:
 ---
-Treuer Untertarn: Die **Kronenfragmente** solltet Ihr besser sammeln und wieder zusammensetzen, bevor Ihr euren Weg zum Palast fortsetzt.
+Treuer Untertarn: Die Kronenfragmente solltet Ihr besser sammeln und wieder zusammensetzen, bevor Ihr euren Weg zum Palast fortsetzt.
 ===
 title: Level2done
 tags:
@@ -27,4 +27,12 @@ Postbeamter: In den letzten Wochen ist das meiste den Bach runtergegangen. Auch 
 Postbeamter: Wie ich sehe, habt Ihr schon Teile Eurer Krone gefunden. Heißt das Ihr wollt euren Thron wieder besteigen? 
 Postbeamter: Wenn Ihr in euren Thronraum wollt, könnt ihr mich als euer persönliches Zustellungskatapult hier benutzen. Normalerweise mache ich das mit Paketen, aber ich denke für Euch wird es auch funktionieren.
 Postbeamter: Damit kommt ihr hoffentlich direkt in eurer Schloss! Ich wünsche euch viel Erfolg!
+===
+title: Level2MissingCrownShard
+---
+Postbeamter: Sample Text (Krone nicht gefunden)
+===
+title: Level2CrownShardZoom
+---
+Postbeamter: Sample Text (Zoom auf die Krone)
 ===
