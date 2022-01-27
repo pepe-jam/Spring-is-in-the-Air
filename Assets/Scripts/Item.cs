@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-
+[RequireComponent(typeof(StudioEventEmitter))]
 public class Item : MonoBehaviour
 {
     private enum InteractionType {None, PickUp};
@@ -12,11 +13,17 @@ public class Item : MonoBehaviour
     [SerializeField] private bool clockwise = false;
     [SerializeField] private bool bigger = true;
 
+    private StudioEventEmitter _pickupSound;
+
     private void Start()
     {
         if (PlayerPrefs.HasKey("crownshard_collected"))
         {
             gameObject.SetActive(false);
+        }
+        else
+        {
+            _pickupSound = GetComponent<StudioEventEmitter>();
         }
     }
 
@@ -25,7 +32,7 @@ public class Item : MonoBehaviour
         Rotate();
         Resize();
     }
-
+    
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if(CompareTag("Pickable"))
@@ -35,6 +42,7 @@ public class Item : MonoBehaviour
                 case InteractionType.PickUp:
                     gameObject.SetActive(false);
                     PlayerPrefs.SetString("crownshard_collected", "true");
+                    _pickupSound.Play();
                     break;
             }
         }

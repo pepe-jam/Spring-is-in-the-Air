@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5986292640742143076}
   - component: {fileID: 5986292640742143098}
   - component: {fileID: 5986292640742143099}
+  - component: {fileID: 6330172155384253223}
   m_Layer: 0
   m_Name: Crown Shard
   m_TagString: Pickable
@@ -115,3 +116,33 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.2
+--- !u!114 &6330172155384253223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5986292640742143079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1573304428
+      Data2: 1292567367
+      Data3: -1188488288
+      Data4: -1155703489
+    Path: event:/Crown Shard Pickup
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20

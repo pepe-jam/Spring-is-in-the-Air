@@ -73860,7 +73860,6 @@ MonoBehaviour:
           m_StringArgument: Main Camera
           m_BoolArgument: 0
         m_CallState: 2
-  dialogueCooldown: 5
 --- !u!114 &1225602051
 MonoBehaviour:
   m_ObjectHideFlags: 0
