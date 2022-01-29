@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{17512c8f-f35b-4378-be13-3f7ff67d8dd3}">
+		<property name="assetPath">
+			<value>wood_ - light_3.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.29395833333333332</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{824f24c9-8672-4456-8fa3-c11973ce741f}</destination>
+		</relationship>
+	</object>
+</objects>

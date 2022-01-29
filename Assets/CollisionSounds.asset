@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49d99635b15c40cd91c698de9c58e346, type: 3}
+  m_Name: CollisionSounds
+  m_EditorClassIdentifier: 
+  fmodEventPerPhysicsMaterial:
+  - physicsMaterial: {fileID: 6200000, guid: 2c0da8b1f91b6b142a488d3fa83767a4, type: 2}
+    fmodEvent:
+      Guid:
+        Data1: -1852973844
+        Data2: 1194860958
+        Data3: -12240717
+        Data4: 190999224
+      Path: event:/Collisions/collide_stone_wall
+  - physicsMaterial: {fileID: 6200000, guid: c713743073277df40aa121e12d5f31b5, type: 2}
+    fmodEvent:
+      Guid:
+        Data1: -512403335
+        Data2: 1267578129
+        Data3: -164554359
+        Data4: 66004291
+      Path: event:/Collisions/collide_metal_pipe
+  - physicsMaterial: {fileID: 6200000, guid: 39113421f8f2c4e4394a98949236c063, type: 2}
+    fmodEvent:
+      Guid:
+        Data1: 1225336082
+        Data2: 1229326270
+        Data3: -1743865940
+        Data4: 1905304097
+      Path: event:/Collisions/collide_wood
+  defaultFmodEvent:
+    Guid:
+      Data1: -1852973844
+      Data2: 1194860958
+      Data3: -12240717
+      Data4: 190999224
+    Path: event:/Collisions/collide_stone_wall
+  loudnessCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.9509434
+      outSlope: 0.9509434
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.7552996
+    - serializedVersion: 3
+      time: 0.13791436
+      value: 0.15471995
+      inSlope: 1.7754023
+      outSlope: 1.7754023
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.75471705
+      outSlope: 0.75471705
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.2319955
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  impactForceParameterName: impact_force

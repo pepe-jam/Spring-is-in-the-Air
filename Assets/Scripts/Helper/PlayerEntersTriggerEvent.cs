@@ -11,7 +11,6 @@ namespace Helper
         public UnityEvent playerExitsTrigger;
         public void OnTriggerEnter2D(Collider2D other)
         {
-            Debug.Log("Trigger!");
             if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
                 playerEntersTrigger.Invoke();
@@ -20,7 +19,6 @@ namespace Helper
 
         public void OnTriggerExit2D(Collider2D other)
         {
-            Debug.Log("Trigger Exit!");
             if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
                 playerExitsTrigger.Invoke();

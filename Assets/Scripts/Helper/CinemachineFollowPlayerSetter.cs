@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Cinemachine;
 using UnityEngine;
@@ -24,20 +25,23 @@ public class CinemachineFollowPlayerSetter : MonoBehaviour
 
     private IEnumerator SetFollowPlayer()
     {
-        bool playerInstatniated = false;   // Player Character cannot be found if it hasn't been created yet
-        while (!playerInstatniated)
+        bool playerInstantiated = false;   // Player Character cannot be found if it hasn't been created yet
+        GameObject playerHead = null;
+        while (!playerInstantiated)
         {
-            var playerHead = playerSpringController.GetFaceSegment();
-            if (playerHead)
+            try
             {
-                playerInstatniated = true;
-                foreach (var camera in virtualCameras)
-                {
-                    camera.Follow = playerHead;
-                }
+                playerHead = playerSpringController.GetFaceSegment();
+                playerInstantiated = true;
             }
-
+            catch (SpringController.NotInitializedException e)
+            {
+            }
             yield return null;
+        }
+        foreach (var vcam in virtualCameras)
+        {
+            vcam.Follow = playerHead.transform;
         }
     }
 }

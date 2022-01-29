@@ -10,6 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2586483487980866611}
   - component: {fileID: 2586483487980866608}
+  - component: {fileID: 6775799379430085600}
+  - component: {fileID: 1824313765}
+  - component: {fileID: 8024195944171979736}
+  - component: {fileID: 1824313766}
+  - component: {fileID: 4230892596531456824}
   m_Layer: 3
   m_Name: PlayerCharacter
   m_TagString: Untagged
@@ -43,12 +48,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337ffd490afc54545b91e19c1475876e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  segmentCount: 6
+  segmentCount: 5
   height: 0.88
   segmentScale: 1.16
   face: {fileID: 21300000, guid: fc29881c4c376224c92c1c703cca1827, type: 3}
   faceScale: 1
-  jointMaterial: {fileID: 2100000, guid: 419b67e70192b954198040d5ec33d841, type: 2}
+  jointMaterial: {fileID: 2100000, guid: 7247b629e057fb242b387b30f953a5c2, type: 2}
   jointWidth: 0.2
   linearDrag: 0.42
   angularDrag: 1
@@ -58,6 +63,7 @@ MonoBehaviour:
   balancingJointMass: 0.5
   balancingJointGravityScale: -1
   oscillatingFrequency: 15.59
+  physicsMaterial2D: {fileID: 6200000, guid: df2e5c5fd505be148ba305a82a1a7bbd, type: 2}
   jumpForceUp: 1463.4
   jumpForceSideways: 708.5
   jumpChargeTime: 1
@@ -66,9 +72,11 @@ MonoBehaviour:
   chargingContraction: 0.5
   groundCheckSkipDuration: 0.5
   tiltStrength: 0.76
-  moveDuration: 0.39
-  moveDistance: 10
-  moveAnimationSpeed: 0.5
+  moveDuration: 0.1
+  moveDelay: 0.39
+  moveDistance: 4.04
+  moveAnimationSpeed: 1.65
+  walkingHeight: 1
   groundLayers:
     serializedVersion: 2
     m_Bits: 55
@@ -76,4 +84,129 @@ MonoBehaviour:
   rescueSpasmDelay: 4
   rescueSpasmIntensity: 5
   rescueSpasmDuration: 0.5
-  _lastTimeJumped: 0
+  collisionSoundEvents: {fileID: 11400000, guid: f3a5d4e149f0c534c89575c239d6622f, type: 2}
+  ownCollisionSound:
+    Guid:
+      Data1: -192539946
+      Data2: 1235987004
+      Data3: -1791851869
+      Data4: -1538852294
+    Path: event:/Collisions/collide_spring
+  jumpSound: {fileID: 1824313765}
+  startWalkSound: {fileID: 1824313766}
+  stopWalkSound: {fileID: 8024195944171979736}
+--- !u!114 &6775799379430085600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586483487980866609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe61398e796feb4b8973100b6f824ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickedCrownSplitter: 0
+--- !u!114 &1824313765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586483487980866609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1581863059
+      Data2: 1199601447
+      Data3: -1126426209
+      Data4: -912165962
+    Path: event:/Jump
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &8024195944171979736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586483487980866609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -91995772
+      Data2: 1201688208
+      Data3: 1277382331
+      Data4: 563878586
+    Path: event:/Walk Creak 2
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &1824313766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586483487980866609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -501367590
+      Data2: 1094892802
+      Data3: 1081717646
+      Data4: -1033242839
+    Path: event:/Walk Creak 1
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &4230892596531456824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586483487980866609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f4d3bfda89d243488228b8d0a5fcf8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
