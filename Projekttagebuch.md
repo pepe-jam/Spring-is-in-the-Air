@@ -1,5 +1,5 @@
 # Arbeitszeiten
-<details open>
+<details>
 <summary>Pascal</summary>
 
 |ungefähre Aktivität|Zeit|
@@ -23,6 +23,6 @@
 ||90|
 </details>
 
-<details open>
+<details>
 <summary>Thomas</summary>
 </details>
