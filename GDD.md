@@ -1,7 +1,7 @@
 # Spring is in the Air
 
 ## Gameplay
-Spring is in the Air ist ein Platform-Climbing Spiel, angelehnt an Jump King und Getting over it with Bennett Foddy. Der Spieler muss in verschiedenen Leveln auf Objekte und Plattformen und mehr springen, um nach oben zu gelangen. Außerdem muss in jedem Gebiet ein Bruchstück der Krone gefunden werden, um weiter fortzuschreiten. Wenn
+Spring is in the Air ist ein Platform-Climbing Spiel, angelehnt an Jump King und Getting Over it with Bennett Foddy. King Spring muss in verschiedenen Leveln auf Objekte und Plattformen und mehr springen, um nach oben zu gelangen. Außerdem muss in jedem Gebiet ein Bruchstück der Krone gefunden werden, um weiter fortzuschreiten. Wenn King Spring mit dem Bewohner redet, wird ihm gezeigt, wo sich die Krone befindet, falls er sie noch nicht eingesammelt hat.
 
 ## Setting
 Als King Spring während einer seiner Reden vom Balkon stolpert und daraufhin in die Kanalisation fällt, muss er auf seinem Weg zurück nach oben in sein Schloss die zerbrochenen Stücke seiner Krone finden, um sein Recht auf den Thron zu beweisen.
