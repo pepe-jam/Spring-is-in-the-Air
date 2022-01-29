@@ -26,8 +26,14 @@ Der Charakter besteht aus einer Kette von fünf unsichtbaren Würfeln (im Folgen
 
 Wird er nicht vom Spieler bewegt, hat das unterste Glied eine Masse von 1,5 und wird logischerweise von der Erdanziehungskraft nach unten beschleunigt, alle anderen Glieder haben eine Masse von je 0,1 und werden mit derselben Erdbeschleunigung nach oben gezogen, wodurch es scheint als stünde King Spring aufrecht.
 [Screenshots hier einfügen]
+
+### Laufen
 [Walking GIF einfügen]
-Wird der Spielercharakter nach links oder rechts bewegt, wird alle 0,93 Sekunden die Coroutine „Walk“ gestartet. Diese bewegt zuerst das oberste Glied von King Spring durch Überschreiben seiner Geschwindigkeit in die gewünschte Richtung und tauscht kurze Zeit später die physikalischen Eigenschaften des obersten Gliedes mit dem 
+Wird der Spielercharakter nach links oder rechts bewegt, wird alle 0,93 Sekunden die Coroutine „Walk“ gestartet. Diese bewegt zuerst das oberste Glied von King Spring durch Überschreiben seiner Geschwindigkeit in die gewünschte Richtung und tauscht kurze Zeit später die physikalischen Eigenschaften des obersten Gliedes mit denen des untersten Gliedes, was einen Überschlag simuliert. 
+
+### Springen
+[Sprung-gif einfügen]
+Vor jedem Sprung sollte der Spieler durch Gedrückthalten seiner Leertaste Sprungkraft aufladen, King Spring wird dabei wie eine echte Sprungfeder gestaucht. Dies geschieht durch eine Verkürzung der Spring Joints, die den Charakter zusammenhalten. Auperdem wird die Luftreibung aller Segmente erhöht, um zu verhindern, dass King Spring bei dieser Verkürzung unkontrolliert hin- und herschwingt. 
 Bei jedem Sprung überschlägt sich King Spring einmal selbst, genau wie beim Laufen auch. Vor/nach dem Überschlag
 TODO Erdbeschleunigung definieren
 
@@ -39,4 +45,3 @@ Soundeffekte:
 - Walking Sound Effect 2: [Creaks](https://freesound.org/people/damsur/sounds/443237/) von damsur auf freesound
 - Pipe Collision Sound Effect: [Light_Steel_Pipe_On_Concrete_01.wav](https://freesound.org/people/dheming/sounds/177783/) aus dem „Metal“ Sample Pack von dheming auf Freesound
 - Wood Collision Sound Effect: [Footsteps Running On Wooden Floor Fast Pace.wav](https://freesound.org/people/ralph.whitehead/sounds/565713/) aus dem „Footsteps Foley“ Sample Pack von ralph.whitehead auf freesound
-
