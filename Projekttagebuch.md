@@ -2,8 +2,8 @@
 <details>
 <summary>Pascal</summary>
 
-|ungefähre Aktivität|Zeit|
-|:---|:----:|
+|Aktivität|Zeitaufwand in Stunden|
+|:---|----:|
 |Besprechungen und Präsentationsvorbereitungen|10|
 |Tutorials zu Sprites anschauen|2|
 |Treffen & Programmieren mit Thomas|3|
@@ -20,9 +20,34 @@
 |neue richtige Hitboxen für alle Objekte, Intro Skript, Throneroom Transition|7|
 |Ending Art, Polishing and Finishing|8|
 |Game Design Document|2|
-||90|
+|||
+|**Gesamt**|**90**|
 </details>
 
 <details>
 <summary>Thomas</summary>
+
+|Aktivität | Zeitaufwand in Stunden |
+|:---|---:|
+| Ideenfindung | 5 |
+| Implementierung der Sprungmechanik | 8  |
+| Implementierung eines nicht/selten genutzten Features (RescueSpasm im [SpringController](Assets/Scripts/SpringController.cs#369)) | 1 
+| Implementierung der Laufmechanik | 5  |
+| Aufsetzen des Kamerasystems | 5  |
+| Design und Import des Speilercharakters | 3  |
+| Grafik- und Leveldesign des ersten Levels | 32 |
+| Projektmanagement und Zwischenbesprechungen | 2  |
+| Suche nach freien Soundeffekten im Web | 2  |
+| Soundsynthese des Sprungsoundeffekts | 5  |
+| Sound Design und Audio Engineering in Fmod und Unity | 26  |
+| Design und Einbindung der Tutorialhinweise, welche mit zunehmender Distanz zum Spieler verblassen | 1  |
+| Dialogsystem und Überblendung zwischen Leveln | 11  |
+| Illustration und Einbindung der Intro-Sequenz | 8  |
+| Automatisches Speichern des Spielstandes | 2  |
+| Haupt- und Pausemenü | 4  |
+| Einbindung der Endsequenz | 1 |
+|  |  |
+| **Gesamt** | **121** |
+
+---
 </details>
