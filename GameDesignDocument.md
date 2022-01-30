@@ -23,7 +23,7 @@ Spring is in the Air ist ein Platform-Climbing Spiel, angelehnt an [Jump King](h
 ## Movement
 Der Spieler kann King Spring dazu bringen, ...
 
-| seitwärts zu laufen | sich auf einen Sprung vorzubereiten | sich während des Vorbereitens auf einen Sprung nach links oder rechtszu neigen | gerade oder seitwärts nach oben zu springen | 
+| seitwärts zu laufen | sich auf einen Sprung vorzubereiten | sich während des Vorbereitens auf einen Sprung nach links oder rechts zu neigen | gerade oder seitwärts nach oben zu springen | 
 |:-:|:-:|:-:|:-:|
 |![](doku-grafiken/King-Spring-walking.gif)|![](doku-grafiken/King-Spring-charging.gif)|![](doku-grafiken/King-Spring-wiggling.gif)|![](doku-grafiken/King-Spring-jumping.gif)
 
@@ -38,7 +38,6 @@ Wird er nicht gerade vom Spieler bewegt, hat das unterste Glied immer eine Masse
 | | |
 | --- | --- |
 | ![](doku-grafiken/Sprungfeder-aufrecht.png) | ![](doku-grafiken/Sprungfeder-an-Überhang.png)|
- |
 
 
 
