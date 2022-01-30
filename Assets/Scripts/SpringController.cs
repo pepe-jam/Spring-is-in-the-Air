@@ -260,8 +260,9 @@ public class SpringController : MonoBehaviour
             if (Input.GetKey(KeyCode.Space))
             {
                 // makes the spring tilt into the direction of the jump
+                // TODO make dependent on Time.deltatime
                 _segments[_topJointIndex].Rigidbody2D
-                    .AddForce(Vector2.right * (Input.GetAxis("Horizontal") * tiltStrength));
+                    .AddForce(Vector2.right * Input.GetAxis("Horizontal") * tiltStrength * Time.deltaTime);
                 Charge();
             }
             else
