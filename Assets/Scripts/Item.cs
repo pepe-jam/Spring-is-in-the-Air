@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using FMODUnity;
-using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
 [RequireComponent(typeof(StudioEventEmitter))]
